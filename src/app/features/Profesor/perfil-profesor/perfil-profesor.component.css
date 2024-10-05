@@ -1,0 +1,23 @@
+.container{
+    background-color: #cdcece;
+}
+
+/* Estilo personalizado para el input type="file" */
+.custom-file-upload input[type="file"] {
+    display: none;
+}
+
+/* Estilo personalizado para el label que actúa como botón para cargar la imagen */
+.custom-file-upload {
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f1f1f1;
+}
+
+/* Estilo adicional cuando se pasa el mouse sobre el label */
+.custom-file-upload:hover {
+    background-color: #e9e9e9;
+}

@@ -1,0 +1,236 @@
+<h1 mat-dialog-title>Editar Alumno</h1>
+<div mat-dialog-content class="medidas-dialog">
+  <form [formGroup]="formularioEditar" class="input-group-sm mb-3">
+    <!-- <div class="row">
+        <label for="id" class="form-label">
+          id:
+          <input
+            type="text"
+            name="id"
+            formControlName="id"
+            class="form-control"
+          />
+        </label>
+      </div> -->
+
+    <div class="row">
+      <label for="nombre" class="form-label"
+        >Nombre:
+        <input
+          type="text"
+          name="nombre"
+          formControlName="nombre"
+          class="form-control"
+        />
+        <div
+          class="valido"
+          *ngIf="
+            formularioEditar.controls['nombre'].dirty &&
+            formularioEditar.controls['nombre'].valid
+          "
+        >
+          Correcto!
+        </div>
+        <div
+          class="invalido"
+          *ngIf="formularioEditar.controls['nombre'].dirty && formularioEditar.controls['nombre'].errors?.['required']"
+        >
+          El campo es requerido
+        </div>
+        <div
+          class="invalido"
+          *ngIf="formularioEditar.controls['nombre'].dirty && formularioEditar.controls['nombre'].errors?.['pattern']"
+        >
+          Este campo solo puede contener letras
+        </div>
+      </label>
+    </div>
+
+    <div class="row">
+      <label for="apellido" class="form-label"
+        >Apellido:
+        <input
+          type="text"
+          name="apellido"
+          formControlName="apellido"
+          class="form-control"
+        />
+        <div
+          class="valido"
+          *ngIf="
+            formularioEditar.controls['apellido'].dirty &&
+            formularioEditar.controls['apellido'].valid
+          "
+        >
+          Correcto!
+        </div>
+        <div
+          class="invalido"
+          *ngIf="formularioEditar.controls['apellido'].dirty && formularioEditar.controls['apellido'].errors?.['required']"
+        >
+          El campo es requerido
+        </div>
+        <div
+          class="invalido"
+          *ngIf="formularioEditar.controls['apellido'].dirty && formularioEditar.controls['apellido'].errors?.['pattern']"
+        >
+          Este campo solo puede contener letras
+        </div>
+      </label>
+    </div>
+
+    <div class="row">
+      <label for="correo" class="form-label"
+        >Correo:
+        <input
+          type="text"
+          name="correo"
+          formControlName="correo"
+          class="form-control"
+        />
+        <div
+          class="valido"
+          *ngIf="
+            formularioEditar.controls['correo'].dirty &&
+            formularioEditar.controls['correo'].valid
+          "
+        >
+          Correcto!
+        </div>
+        <div
+          class="invalido"
+          *ngIf="formularioEditar.controls['correo'].dirty && formularioEditar.controls['correo'].errors?.['required']"
+        >
+          El campo es requerido
+        </div>
+        <div
+          class="invalido"
+          *ngIf="formularioEditar.controls['correo'].dirty && formularioEditar.controls['correo'].errors?.['pattern']"
+        >
+          Este campo solo puede contener letras
+        </div>
+      </label>
+    </div>
+
+    <div class="row">
+      <label for="telefono" class="form-label"
+        >Telefono:
+        <input
+          type="text"
+          name="telefono"
+          formControlName="telefono"
+          class="form-control"
+        />
+        <div
+          class="valido"
+          *ngIf="
+            formularioEditar.controls['telefono'].dirty &&
+            formularioEditar.controls['telefono'].valid
+          "
+        >
+          Correcto!
+        </div>
+        <div
+          class="invalido"
+          *ngIf="formularioEditar.controls['telefono'].dirty && formularioEditar.controls['telefono'].errors?.['required']"
+        >
+          El campo es requerido
+        </div>
+        <div
+          class="invalido"
+          *ngIf="formularioEditar.controls['telefono'].dirty && formularioEditar.controls['telefono'].errors?.['pattern']"
+        >
+          Este campo solo puede contener letras
+        </div>
+      </label>
+    </div>
+
+    <div class="row">
+      <label for="direccion" class="form-label"
+        >Dirección:
+        <input
+          type="text"
+          name="direccion"
+          formControlName="direccion"
+          class="form-control"
+        />
+        <div
+          class="valido"
+          *ngIf="
+            formularioEditar.controls['direccion'].dirty &&
+            formularioEditar.controls['direccion'].valid
+          "
+        >
+          Correcto!
+        </div>
+        <div
+          class="invalido"
+          *ngIf="formularioEditar.controls['direccion'].dirty && formularioEditar.controls['direccion'].errors?.['required']"
+        >
+          El campo es requerido
+        </div>
+        <div
+          class="invalido"
+          *ngIf="formularioEditar.controls['direccion'].dirty && formularioEditar.controls['direccion'].errors?.['pattern']"
+        >
+          Este campo solo puede contener letras
+        </div>
+      </label>
+    </div>
+
+    <div class="row">
+      <label for="fechaNacimiento" class="form-label">
+        Fecha de Nacimiento:
+        <input
+          type="date"
+          name="fechaNacimiento"
+          formControlName="fechaNacimiento"
+          class="form-control"
+        />
+        <div
+          class="invalido"
+          *ngIf="formularioEditar.controls['fechaNacimiento'].dirty && formularioEditar.controls['fechaNacimiento'].errors?.['required']"
+        >
+          El campo es requerido
+        </div>
+      </label>
+    </div>
+  </form>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="aceptar()">Aceptar</button>
+  <button mat-button color="warn" (click)="Cancelar()">Cancelar</button>
+</div>
+
+<!-- <div class="example-container">
+  <form [formGroup]="options">
+    <mat-checkbox [formControl]="hideRequiredControl">Hide required marker</mat-checkbox>
+    <div>
+      <label>Float label: </label>
+      <mat-radio-group [formControl]="floatLabelControl">
+        <mat-radio-button value="auto">Auto</mat-radio-button>
+        <mat-radio-button value="always">Always</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div class="example-form-fields">
+      <mat-form-field [hideRequiredMarker]="hideRequired()" [floatLabel]="floatLabel()">
+        <input matInput placeholder="Simple placeholder" required />
+      </mat-form-field>
+
+      <mat-form-field [floatLabel]="floatLabel()">
+        <mat-label>Both a label and a placeholder</mat-label>
+        <input matInput placeholder="Simple placeholder" />
+      </mat-form-field>
+
+      <mat-form-field [hideRequiredMarker]="hideRequired()" [floatLabel]="floatLabel()">
+        <mat-select required>
+          <mat-option>-- None --</mat-option>
+          <mat-option value="option">Option</mat-option>
+        </mat-select>
+        <mat-label><mat-icon>favorite</mat-icon> <strong> Fancy</strong> <em> label</em></mat-label>
+      </mat-form-field>
+    </div>
+  </form>
+</div> -->

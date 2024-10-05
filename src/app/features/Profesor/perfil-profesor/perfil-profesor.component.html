@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Perfil del Profesor</title>
+  </head>
+  <body>
+    <div *ngIf="!profesor$">Profesor no encontrado.</div>
+    <div *ngIf="profesor$">
+      ID: {{ profesor$.idProfesor }} <br />
+      Nombre: {{ profesor$.nombre }} <br />
+      Apellido: {{ profesor$.apellido }} <br />
+      Correo: {{ profesor$.correo }} <br />
+      Telefono: {{ profesor$.telefono }} <br />
+      Fecha de Nacimiento:
+      {{ profesor$.fechaNacimiento | date : "dd/MM/yyyy" }} <br />
+
+      <!-- Especialidad: {{ profesor$.especialidad }} <br /> -->
+      <h2>Cursos Ofrecidos:</h2>
+      <ul>
+        <li *ngFor="let curso of profesor$.cursos">
+          <strong
+            >{{ curso.nombreCurso }} - Comision {{ curso.comision }}
+          </strong>
+          <br />
+          {{ curso.detalle }}
+        </li>
+      </ul>
+
+      <h2>Estudios</h2>
+      <ul>
+        <li *ngFor="let estudio of profesor$.estudios">
+          <strong>{{ estudio.nombre }}</strong
+          ><br />
+          Institución: {{ estudio.institucion }}<br />
+          Fecha de Obtención: {{ estudio.fechaObtencion | date : "dd/MM/yyyy" }}
+        </li>
+      </ul>
+
+      <h2>Estado</h2>
+      <ul>
+        <li *ngFor="let estado of profesor$.estado">
+          <strong>{{ estado.nombre }}</strong
+          ><br />
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

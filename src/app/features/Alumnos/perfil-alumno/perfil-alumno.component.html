@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Perfil del Alumno</title>
+  </head>
+  <body>
+    <div *ngIf="!alumno$">Alumno no encontrado.</div>
+    <div *ngIf="alumno$">
+      ID: {{ alumno$.idAlumno }} <br />
+      Nombre: {{ alumno$.nombre }} <br />
+      Apellido: {{ alumno$.apellido }} <br />
+      Direccion: {{ alumno$.direccion }} <br />
+      Telefono: {{ alumno$.telefono }} <br />
+      Correo: {{ alumno$.correo }} <br />
+      Fecha de Nacimiento: {{ alumno$.fechaNacimiento | date : "dd/MM/yyyy" }}
+      <br />
+
+      <h2>Cursos Inscriptos:</h2>
+      <ul>
+        <li *ngFor="let alumno of alumno$.cursos">
+          <strong
+            >{{ alumno.nombreCurso }} - Comision {{ alumno.comision }}
+          </strong>
+          <br />
+        </li>
+      </ul>
+      
+    </div>
+  </body>
+</html>

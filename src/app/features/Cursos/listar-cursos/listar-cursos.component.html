@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cursos</title>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.24/angular-material.min.css"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <section class="cursos-card">
+      <div *ngFor="let curso of cursos$ | async; trackBy: trackByCursosId">
+        <mat-card class="example-card" appearance="outlined">
+          <mat-card-header>
+            <!-- <mat-card-title>{{ curso.idCurso }}</mat-card-title> -->
+            <mat-card-title>{{ curso.nombreCurso }}</mat-card-title>
+            <mat-card-subtitle>
+              <p>Detalle:</p>
+              <p>
+                Profesor:
+                <a (click)="detalleProfesor(curso.profesor.idProfesor)">
+                  {{ curso.profesor.apellido }} {{ curso.profesor.nombre }}</a
+                >
+              </p>
+              <p>Descripción: {{ curso.descripcion }}</p>
+              <p>Comisión: {{ curso.comision }}</p>
+              <p>
+                Inicio del Curso: {{ curso.fechaInicio | date : "dd/MM/yyyy" }}
+              </p>
+              <p>
+                Finalización del Curso:
+                {{ curso.fechaFin | date : "dd/MM/yyyy" }}
+              </p>
+                <div [appBooleanStyle]="curso.presencial">
+                  {{ curso.presencial | booleanToText : "Presencial" : "Remoto" }}
+                </div>
+
+            </mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-actions>
+           <!-- <button mat-raised-button color="primary" class="btnAlumno" (click)="inscribirseAlCurso()">inscribirse</button> -->
+
+            <button class="btnAdmin" mat-raised-button color="primary" (click)="EditarCurso(curso)">Editar</button>
+            <button class="btnAdmin" mat-button color="warn"  (click)="EliminarCurso(curso)" aria-label="EliminarCurso">Eliminar</button>
+        </mat-card-actions>
+        </mat-card>
+      </div>
+    </section>
+
+      <button mat-raised-button color="primary" id="btnAddUser"  (click)="AgregarCurso()">
+        Agregar Curso
+    </button>
+    
+
+    <!-- <section class="footerCard">
+        <div class="paginator-container">
+            <mat-paginator
+                [pageSizeOptions]="[5, 10, 20]"
+                showFirstLastButtons
+                aria-label="Select page of periodic elements"
+            ></mat-paginator>
+            
+            <button mat-raised-button color="primary" id="btnAddUser"  (click)="AgregarProfesor()">
+                Agregar Usuario
+            </button>
+        </div>
+        
+    </section> -->
+  </body>
+</html>

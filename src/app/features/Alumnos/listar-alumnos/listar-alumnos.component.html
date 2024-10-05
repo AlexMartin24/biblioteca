@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>alumnos</title>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.24/angular-material.min.css"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <section class="alumnos-card">
+      <div *ngFor="let alumno of alumnos$ | async; trackBy: trackByAlumnosId">
+        <mat-card class="example-card" appearance="outlined">
+          <mat-card-header>
+            <mat-card-title>{{ alumno.idAlumno }}</mat-card-title>
+            <mat-card-title>
+              <a target="_blank" (click)="detalleAlumno(alumno.idAlumno)">
+                {{ alumno.nombre }} {{ alumno.apellido }}
+            </a>
+
+            </mat-card-title>
+            <mat-card-subtitle>
+              <p>
+                Contacto: <br>
+                  Mail: {{ alumno.correo }}
+                  Telefono:  {{ alumno.telefono }}
+              </p>
+              <p>Fecha de Nacimiento: {{ alumno.fechaNacimiento | date : "dd/MM/yyyy"}}</p>
+              <p>Direccion: {{ alumno.direccion }} </p>
+            </mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-actions>
+
+            <button class="btnAdmin" mat-raised-button color="primary" (click)="EditarAlumno(alumno)">Editar</button>
+            <button class="btnAdmin" mat-button color="warn"  (click)="EliminarAlumno(alumno)" aria-label="EliminarAlumno">Eliminar</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </section>
+
+    <button mat-raised-button color="primary" id="btnAddUser"  (click)="AgregarAlumno()">
+        Agregar Alumno
+    </button>
+
+    <!-- <section class="footerCard">
+        <div class="paginator-container">
+            <mat-paginator
+                [pageSizeOptions]="[5, 10, 20]"
+                showFirstLastButtons
+                aria-label="Select page of periodic elements"
+            ></mat-paginator>
+            
+            <button mat-raised-button color="primary" id="btnAddUser"  (click)="AgregarProfesor()">
+                Agregar Usuario
+            </button>
+        </div>
+        
+    </section> -->
+  </body>
+</html>
+
