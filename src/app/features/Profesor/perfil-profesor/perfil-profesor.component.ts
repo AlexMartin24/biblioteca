@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'; // Para acceder a los parámetros de la ruta
-import { ProfesorService } from '../profesor.service';
 import { Profesor } from '../profesor.model';
 import { SharedModule } from '../../../shared/shared.module';
+import { ProfesorService } from '../services/profesor.service';
 
 @Component({
   selector: 'app-perfil-profesor',
@@ -28,7 +28,7 @@ export class PerfilProfesorComponent implements OnInit {
       if (this.idProfesor) {
         console.log('---- EXISTE ID DEL USUARIO - ---');
         // +this.idProfesor convierte el string a un número y llamamos a obtenerProfesor
-        this.obtenerProfesor(+this.idProfesor);
+        this.ObtenerProfesorPorId(+this.idProfesor);
       } else {
         console.log('---- NO SE ENCONTRÓ ID DEL USUARIO - ---');
       }
@@ -36,7 +36,7 @@ export class PerfilProfesorComponent implements OnInit {
   }
   
   //recupera datos del profesor 
-  obtenerProfesor(idProfesor: number): void {
+  ObtenerProfesorPorId(idProfesor: number): void {
     this.profesor$ = this.profesoresService.ObtenerProfesorPorId(idProfesor);
     console.log(this.profesor$);
   }

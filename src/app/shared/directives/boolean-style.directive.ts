@@ -41,7 +41,7 @@ export class BooleanStyleDirective implements OnInit, OnChanges {
       this.renderer.setStyle(
         this.element.nativeElement,
         'background-color',
-        this.presencial ? '#4acdf4' : '#36CD5D'
+        this.presencial ? '#4acdf4' : '#B833FF'
       );
     }
   }

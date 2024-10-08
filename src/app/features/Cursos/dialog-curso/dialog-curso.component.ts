@@ -11,10 +11,7 @@ import {
 import { SharedModule } from '../../../shared/shared.module';
 import { MatSelectChange } from '@angular/material/select';
 import { Profesor } from '../../Profesor/profesor.model';
-import { ProfesorService } from '../../Profesor/profesor.service';
-import { FloatLabelType } from '@angular/material/form-field';
-import { map } from 'rxjs';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { ProfesorService } from '../../Profesor/services/profesor.service';
 
 @Component({
   selector: 'app-dialog-curso',
@@ -70,14 +67,19 @@ export class DialogCursoComponent {
         ]),
         presencial: new FormControl(data.presencial || false),
 
-        nombre: new FormControl(data.profesor.nombre || '', [
-          Validators.required,
-          Validators.pattern(regexTextos),
+        // nombre: new FormControl(data.profesor.nombre || '', [
+        //   Validators.required,
+        //   Validators.pattern(regexTextos),
+        // ]),
+        // apellido: new FormControl(data.profesor.apellido || '', [
+        //   Validators.required,
+        //   Validators.pattern(regexTextos),
+        // ]),
+        idProfesor: new FormControl(data.idProfesor, [
+          Validators.min(1),
+          Validators.max(9999),
         ]),
-        apellido: new FormControl(data.profesor.apellido || '', [
-          Validators.required,
-          Validators.pattern(regexTextos),
-        ]),
+
       });
     }
   }

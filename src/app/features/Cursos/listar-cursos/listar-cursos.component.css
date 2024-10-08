@@ -82,3 +82,21 @@ mat-card-actions {
   display: flex; /* Utiliza flexbox para alinear los elementos */
   margin-top: 20px; /* Espacio superior (ajusta según sea necesario) */
 }
+
+.btnDetalle {
+  display: inline-block; /* Mantiene el comportamiento como botón */
+  padding: 8px 16px; /* Ajustar el padding para un botón más grande */
+  border-radius: 5px; /* Bordes redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar el mouse */
+  text-align: center; /* Centra el texto */
+  background-color: #007bff; /* Color de fondo */
+  color: white; /* Color del texto */
+  border: none; /* Sin borde */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Transiciones suaves */
+  margin-top: 5px;
+}
+
+.btnDetalle:hover {
+  background-color: #0056b3; /* Color de fondo al pasar el mouse */
+  transform: scale(1.05); /* Aumenta ligeramente el tamaño al pasar el mouse */
+}

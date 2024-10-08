@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Cursos } from './curso.model';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Inscripcion } from '../Inscripciones/inscripcion.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,11 +17,13 @@ export class CursosService {
       presencial: true,
       fechaInicio: new Date(2022, 11, 17),
       fechaFin: new Date(2023, 11, 17),
-      profesor: {
-        nombre: 'Felipe',
-        apellido: 'Martinez',
-        idProfesor: 1,
-      },
+      idProfesor: 1,
+      // profesor: {
+      //   nombre: 'Felipe',
+      //   apellido: 'Martinez',
+      //   idProfesor: 1,
+      // },
+      inscripciones: []
     },
 
     {
@@ -32,11 +35,8 @@ export class CursosService {
       presencial: false,
       fechaInicio: new Date(2022, 11, 17),
       fechaFin: new Date(2022, 11, 17),
-      profesor: {
-        nombre: 'Juan',
-        apellido: 'Perez',
-        idProfesor: 1,
-      },
+      idProfesor: 1,
+      inscripciones: []
     },
   ];
 
@@ -47,8 +47,14 @@ export class CursosService {
   }
 
   ObtenerCursosObservable(): Observable<Cursos[]> {
-    // console.log("Profesores recuperados", this.listaProfesores$.asObservable());
+    // console.log("Cursos recuperados", this.listaCursos$.asObservable());
     return this.listaCursos$.asObservable();
+  }
+
+  ObtenerCursoPorId(id: number): Cursos | undefined {
+    return this.listaCursos$.value.find(
+      (curso) => curso.idCurso === id
+    );
   }
 
   EliminarCurso(curso: Cursos) {

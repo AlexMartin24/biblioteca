@@ -5,6 +5,7 @@ import { ListarCursosComponent } from './features/Cursos/listar-cursos/listar-cu
 import { ListarAlumnosComponent } from './features/Alumnos/listar-alumnos/listar-alumnos.component';
 import { ListarAlumnoComponent } from './features/Alumnos/prueba/listar-alumno.component';
 import { PerfilAlumnoComponent } from './features/Alumnos/perfil-alumno/perfil-alumno.component';
+import { CursoComponent } from './features/Cursos/curso/curso.component';
 
 export const routes: Routes = [
      // { path: '', component: ListarAlumnoComponent },
@@ -16,6 +17,8 @@ export const routes: Routes = [
 
 
      { path: 'cursos', component: ListarCursosComponent },
+     { path: 'curso/:idCurso', component: CursoComponent },
+
      { path: 'alumnos', component: ListarAlumnosComponent },
      { path: 'alumno/:idAlumno', component: PerfilAlumnoComponent },
 

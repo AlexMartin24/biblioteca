@@ -20,7 +20,7 @@ export interface Estudios {
 }
 
 export interface Estado {
-  idEstado: number;
+  idEstado?: string;
   nombre: string;
 }
 

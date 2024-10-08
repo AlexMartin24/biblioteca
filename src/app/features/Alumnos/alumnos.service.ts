@@ -25,11 +25,13 @@ export class AlumnosService {
           presencial: true,
           fechaInicio: new Date(2022, 11, 17),
           fechaFin: new Date(2023, 11, 17),
-          profesor: {
-            idProfesor: 1,
-            nombre: 'Felipe',
-            apellido: 'Martinez',
-          },
+          // profesor: {
+          //   idProfesor: 1,
+          //   nombre: 'Felipe',
+          //   apellido: 'Martinez',
+          // },
+          idProfesor: 1,
+          inscripciones: []
         },
       ],
     },

@@ -3,11 +3,12 @@ import { SharedModule } from '../../../shared/shared.module';
 import { Estado, Estudios, Profesor } from '../profesor.model';
 import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { ProfesorService } from '../profesor.service';
 import { DialogComponent } from '../dialog/dialog.component';
 import { Router } from '@angular/router';
-import { MockapiService } from '../mockapi.service';
 import { HttpClientModule } from '@angular/common/http';
+import { MockapiService } from '../services/mockapi.service';
+import { ProfesorService } from '../services/profesor.service';
+import { FirebaseService } from '../../../firebase.service';
 
 @Component({
   selector: 'app-listar-profesor',
@@ -26,6 +27,7 @@ export class ListarProfesorComponent implements OnInit {
   estudios: Estudios[] = [];
   estado: Estado[] = [];
   profesor!: Profesor[];
+  estados: Estado[] = [];
 
 
   constructor(
@@ -33,13 +35,15 @@ export class ListarProfesorComponent implements OnInit {
     private profesoresService: ProfesorService,
     private router: Router,
     private mockapiService: MockapiService,
+    private firebaseService: FirebaseService,
 
     
   ) {}
 
   ngOnInit(): void {
     this.obtenerProfesores();
-    this.obtenerProfesor();
+    this.cargarEstados();
+    // this.obtenerProfesor();
   }
 
 
@@ -133,22 +137,36 @@ export class ListarProfesorComponent implements OnInit {
 
   // }
 
-  detalleProfesor(idProfesor: number) {
+  verDetalleProfesor(idProfesor: number) {
     this.router.navigate(['/profesor/', idProfesor]);
   }
 
- obtenerProfesor(){
-    this.mockapiService.obtenerProfesor().subscribe(
-      (data: Profesor[]) => {
-        this.profesor = data;
-        console.error('Profesor recuperado:', this.profesor);
-
-      },
-      error => {
-        console.error('Error:', error);
-      }
-    );
+  verDetalleCurso(idCurso: number) {
+    this.router.navigate(['/curso/', idCurso]);
   }
+
+
+
+async obtenerProfesor() {
+  try {
+    this.profesor = await this.mockapiService.obtenerProfesor();
+    console.error('Profesor recuperado:', this.profesor);
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+
+
+  async cargarEstados(): Promise<void> {
+    try {
+      this.estados = await this.firebaseService.obtenerEstados();
+      console.log('Estados cargados:', this.estados);
+    } catch (error) {
+      console.error('Error al cargar estados:', error);
+    }
+  }
+
 
 
 }

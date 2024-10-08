@@ -1,0 +1,53 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #eef2f5; /* Color de fondo suave */
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px; /* Ancho máximo para una mejor presentación */
+    margin: 0 auto;
+}
+
+mat-card {
+    margin-bottom: 20px;
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+.error-card {
+    background-color: #ffdddd; /* Color de fondo para error */
+    border: 1px solid #ffcccc; /* Borde para destacar el error */
+}
+
+.course-card {
+    background-color: #ffffff; /* Fondo blanco para los detalles del curso */
+}
+
+.course-details {
+    line-height: 1.5; /* Espaciado entre líneas para mejor legibilidad */
+    color: #333; /* Color de texto oscuro */
+}
+
+.mat-title {
+    font-size: 1.5rem; /* Tamaño de fuente más grande para el título */
+    font-weight: 500; /* Peso de la fuente para el título */
+    color: #1976d2; /* Color primario de Angular Material */
+}
+
+table {
+    width: 100%;
+    margin: 20px 0;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+  }
+  

@@ -21,7 +21,7 @@ section {
 
 .example-card {
   width: 300px; /* Ancho fijo */
-  height: 400px; /* Altura fija para todas las tarjetas */
+  height: 300px; /* Altura fija para todas las tarjetas */
   margin: 10px;
   background-color: #ffffff;
   border-radius: 8px;
@@ -46,15 +46,22 @@ mat-card-title {
 }
 
 mat-card-subtitle {
-  font-size: 1.2em;
   color: #666;
 }
 
-mat-card-content {
-  padding: 16px;
-  flex-grow: 1; /* Permitir que el contenido crezca y ocupe espacio */
-  overflow: auto; /* Agregar scroll si el contenido es demasiado */
+mat-card-title, mat-card-subtitle {
+  overflow-wrap: break-word; /* Permite que el texto largo se divida */
+  word-break: break-word; /* Rompe las palabras largas */
+  white-space: normal; /* Asegura que el texto largo pueda hacer saltos de línea */
 }
+
+mat-card-content {
+  display: flex; /* Usar flexbox para el contenido */
+  flex-direction: column; /* Dirección vertical */
+  flex-grow: 1; /* Permitir que el contenido crezca */
+  overflow: auto; /* Evitar que el contenido se desborde */
+}
+
 
 mat-card-actions {
   padding: 8px 16px;
@@ -74,4 +81,17 @@ button {
 button {
   margin-right: 45px; /* Espacio a la derecha del botón */
   margin-top: 10px;
+}
+
+.btnDetalle {
+  display: inline-block; /* Hace que el elemento tenga dimensiones */
+  padding: 5px 15px; /* Espaciado interno */
+  border-radius: 5px; /* Bordes redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar el mouse */
+  text-align: center; /* Centra el texto */
+  transition: background-color 0.3s ease; /* Transición suave para el fondo */
+}
+
+.btnDetalle:hover {
+  background-color: #cdd5dd; /* Color de fondo al pasar el mouse */
 }

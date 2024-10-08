@@ -2,8 +2,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Estado, Profesor } from '../profesor.model';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ProfesorService } from '../profesor.service';
 import { SharedModule } from '../../../shared/shared.module';
+import { ProfesorService } from '../services/profesor.service';
 
 @Component({
   selector: 'app-dialog',
@@ -73,7 +73,7 @@ export class DialogComponent implements OnInit {
 
       // find para buscar en el array estadosPosibles. obtiene el estado correcto a partir del idEstado
       const estadoSeleccionado = this.estadosPosibles.find(
-        (e) => e.idEstado === Number(formData.estado)
+        (e) => e.idEstado === String(formData.estado)
       );
 
       if (!estadoSeleccionado) {

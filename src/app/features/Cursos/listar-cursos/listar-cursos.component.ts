@@ -1,32 +1,44 @@
 import { Component } from '@angular/core';
 import { SharedModule } from '../../../shared/shared.module';
 import { Cursos } from '../curso.model';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { CursosService } from '../cursos.service';
 import { DialogCursoComponent } from '../dialog-curso/dialog-curso.component';
 import { Router } from '@angular/router';
+import { ProfesorService } from '../../Profesor/services/profesor.service';
+import { Profesor } from '../../Profesor/profesor.model';
+import { ProfesorCursoService } from '../../../profesor-curso.service';
 
 @Component({
   selector: 'app-listar-cursos',
   standalone: true,
   imports: [SharedModule],
   templateUrl: './listar-cursos.component.html',
-  styleUrl: './listar-cursos.component.css',
+  styleUrls: ['./listar-cursos.component.css'], // Corrige 'styleUrl' a 'styleUrls'
 })
 export class ListarCursosComponent {
   cursos$!: Observable<Cursos[]>;
+  cursosConProfesores$!: Observable<{ curso: Cursos, profesor: Profesor | undefined }[]>;
+  profesor$: Profesor | undefined;
 
   constructor(
     private dialog: MatDialog,
     private cursosService: CursosService,
-    private router: Router ,
-  ) {}
+    private cursosConProfesoresService: ProfesorCursoService,
+    private router: Router,
+  ) { }
 
   ngOnInit(): void {
-    this.cursos$ = this.cursosService.ObtenerCursosObservable();
-    console.log(this.cursos$);
+    this.obtenerCursosConProfesores();
   }
+
+
+  obtenerCursosConProfesores() {
+    return this.cursosConProfesores$ = this.cursosConProfesoresService.obtenerCursosConProfesores();
+  }
+
+
 
   EliminarCurso(curso: Cursos) {
     this.cursosService.EliminarCurso(curso);
@@ -63,11 +75,13 @@ export class ListarCursosComponent {
           presencial: result.presencial,
           fechaInicio: new Date(),
           fechaFin: new Date(),
-          profesor: {
-            nombre: result.nombre,
-            apellido: result.apellido,
-            idProfesor: 0,
-          },
+          // profesor: {
+          //   nombre: result.nombre,
+          //   apellido: result.apellido,
+          //   idProfesor: 0,
+          // },
+          idProfesor: result.idProfesor,
+          inscripciones: []
         };
 
         // Llama al servicio para editar el curso
@@ -93,11 +107,8 @@ export class ListarCursosComponent {
           presencial: result.presencial,
           fechaInicio: result.fechaInicio,
           fechaFin: result.fechaFin,
-          profesor: {
-            nombre: result.nombre,
-            apellido: result.apellido,
-            idProfesor: result.idProfesor,
-          },
+          idProfesor: result.idProfesor,
+          inscripciones: []
         };
 
         // Llama al servicio para editar el curso
@@ -109,8 +120,8 @@ export class ListarCursosComponent {
 
 
   //Angular utiliza un identificador para determinar qué elementos han cambiado y así minimizar el número de actualizaciones necesarias en el DOM.
-  trackByCursosId(index: number, curso: Cursos) {
-    return curso.idCurso;
+  trackByCursosId(index: number, item: { curso: Cursos; profesor: Profesor | undefined }): number {
+    return item.curso.idCurso; // Aquí accedemos a `curso` dentro de `item`
   }
 
 
@@ -118,7 +129,12 @@ export class ListarCursosComponent {
     this.router.navigate(['/profesor/', idProfesor]);
   }
 
-      
+  detalleCurso(idCurso: number) {
+    this.router.navigate(['/curso/', idCurso]);
+  }
+
+
+
 
   inscribirseAlCurso() {
     alert('Inscribir al curso');

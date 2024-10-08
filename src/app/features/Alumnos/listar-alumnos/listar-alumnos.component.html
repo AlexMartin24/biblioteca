@@ -1,55 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>alumnos</title>
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.24/angular-material.min.css"
-      rel="stylesheet"
-    />
-  </head>
 
-  <body>
-    <section class="alumnos-card">
-      <div *ngFor="let alumno of alumnos$ | async; trackBy: trackByAlumnosId">
-        <mat-card class="example-card" appearance="outlined">
-          <mat-card-header>
-            <mat-card-title>{{ alumno.idAlumno }}</mat-card-title>
-            <mat-card-title>
-              <a target="_blank" (click)="detalleAlumno(alumno.idAlumno)">
-                {{ alumno.nombre }} {{ alumno.apellido }}
-            </a>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alumnos</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.24/angular-material.min.css"
+    rel="stylesheet" />
+  <style>
+    .centered-header,
+    .centered-cell {
+      text-align: center;
+      /* Centra el texto de los encabezados y las celdas */
+    }
+  </style>
+</head>
 
-            </mat-card-title>
-            <mat-card-subtitle>
-              <p>
-                Contacto: <br>
-                  Mail: {{ alumno.correo }}
-                  Telefono:  {{ alumno.telefono }}
-              </p>
-              <p>Fecha de Nacimiento: {{ alumno.fechaNacimiento | date : "dd/MM/yyyy"}}</p>
-              <p>Direccion: {{ alumno.direccion }} </p>
-            </mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-actions>
-
-            <button class="btnAdmin" mat-raised-button color="primary" (click)="EditarAlumno(alumno)">Editar</button>
-            <button class="btnAdmin" mat-button color="warn"  (click)="EliminarAlumno(alumno)" aria-label="EliminarAlumno">Eliminar</button>
-          </mat-card-actions>
-        </mat-card>
-      </div>
-    </section>
-
-    <button mat-raised-button color="primary" id="btnAddUser"  (click)="AgregarAlumno()">
+<body>
+  <section class="alumnos-header">
+    <div class="titulos">
+      <h2>Alumnos</h2>
+      <button mat-raised-button color="primary" class="btnAddUser" (click)="AgregarAlumno()">
         Agregar Alumno
-    </button>
+      </button>
+    </div>
+  </section>
+  <section class="alumnos-table">
 
-    <!-- <section class="footerCard">
+    <table mat-table [dataSource]="alumnos$" class="mat-elevation-z8">
+      <ng-container matColumnDef="Nombre">
+        <th mat-header-cell *matHeaderCellDef class="centered-header"> Nombre </th>
+        <td mat-cell *matCellDef="let alumno" class="centered-cell"> {{ alumno.nombre }} {{ alumno.apellido }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Contacto">
+        <th mat-header-cell *matHeaderCellDef class="centered-header"> Contacto </th>
+        <td mat-cell *matCellDef="let alumno" class="centered-cell"> {{ alumno.correo }} - {{ alumno.telefono }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="InformacionAdicional">
+        <th mat-header-cell *matHeaderCellDef class="centered-header"> Fecha de Nacimiento </th>
+        <td mat-cell *matCellDef="let alumno" class="centered-cell"> {{ alumno.fechaNacimiento | date : "dd/MM/yyyy"}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Direccion">
+        <th mat-header-cell *matHeaderCellDef class="centered-header"> Dirección </th>
+        <td mat-cell *matCellDef="let alumno" class="centered-cell"> {{ alumno.direccion }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="detalle">
+        <th mat-header-cell *matHeaderCellDef class="centered-header"> Detalles </th>
+        <td (click)="detalleAlumno(alumno.idAlumno)" mat-cell *matCellDef="let alumno" class="centered-cell">
+          <span class="btnDetalle">Ver Más</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef class="centered-header"> Acciones </th>
+        <td mat-cell *matCellDef="let alumno" class="centered-cell">
+
+          <button mat-mini-fab color="primary" class="btnEditYElim" aria-label="editar" (click)="EditarAlumno(alumno)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-mini-fab color="warn" class="btnEditYElim" aria-label="eliminar" (click)="EliminarAlumno(alumno)">
+            <mat-icon>delete</mat-icon>
+          </button>
+
+        </td>
+      </ng-container>
+
+      <tr mat-header-row
+        *matHeaderRowDef="['Nombre', 'Contacto', 'InformacionAdicional', 'Direccion', 'detalle', 'acciones']"></tr>
+      <tr mat-row
+        *matRowDef="let row; columns: ['Nombre', 'Contacto', 'InformacionAdicional', 'Direccion', 'detalle', 'acciones'];">
+      </tr>
+    </table>
+  </section>
+
+  <!-- <section class="footerCard">
         <div class="paginator-container">
             <mat-paginator
                 [pageSizeOptions]="[5, 10, 20]"
@@ -63,6 +93,7 @@
         </div>
         
     </section> -->
-  </body>
-</html>
 
+</body>
+
+</html>

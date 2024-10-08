@@ -1,4 +1,5 @@
-import {  ProfesorResumen } from '../Profesor/profesor.model';
+import { Inscripcion } from '../Inscripciones/inscripcion.model';
+import { ProfesorResumen } from '../Profesor/profesor.model';
 
 export interface Cursos {
   idCurso: number;
@@ -10,5 +11,9 @@ export interface Cursos {
   fechaInicio: Date;
   fechaFin: Date;
 
-  profesor: ProfesorResumen;
+  //  profesor: ProfesorResumen;
+
+  idProfesor: number;
+  inscripciones: Inscripcion[];
+
 }
