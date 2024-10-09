@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { MockapiService } from '../services/mockapi.service';
 import { ProfesorService } from '../services/profesor.service';
-import { FirebaseService } from '../../../firebase.service';
+// import { FirebaseService } from '../../../firebase.service';
 
 @Component({
   selector: 'app-listar-profesor',
@@ -35,14 +35,14 @@ export class ListarProfesorComponent implements OnInit {
     private profesoresService: ProfesorService,
     private router: Router,
     private mockapiService: MockapiService,
-    private firebaseService: FirebaseService,
+    // private firebaseService: FirebaseService,
 
     
   ) {}
 
   ngOnInit(): void {
     this.obtenerProfesores();
-    this.cargarEstados();
+    // this.cargarEstados();
     // this.obtenerProfesor();
   }
 
@@ -158,14 +158,14 @@ async obtenerProfesor() {
 
 
 
-  async cargarEstados(): Promise<void> {
-    try {
-      this.estados = await this.firebaseService.obtenerEstados();
-      console.log('Estados cargados:', this.estados);
-    } catch (error) {
-      console.error('Error al cargar estados:', error);
-    }
-  }
+  // async cargarEstados(): Promise<void> {
+  //   try {
+  //     this.estados = await this.firebaseService.obtenerEstados();
+  //     console.log('Estados cargados:', this.estados);
+  //   } catch (error) {
+  //     console.error('Error al cargar estados:', error);
+  //   }
+  // }
 
 
 

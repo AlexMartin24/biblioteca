@@ -11,6 +11,15 @@
 </head>
 
 <body>
+  <section class="alumnos-header">
+    <div class="titulos">
+      <h2>Bienvenido</h2>
+      <button mat-raised-button color="primary" id="btnAddUser" (click)="AgregarCurso()">
+        Agregar Curso
+      </button>
+    </div>
+  </section>
+
   <section class="cursos-card">
     <div *ngFor="let item of cursosConProfesores$ | async; trackBy: trackByCursosId">
       <mat-card class="example-card" appearance="outlined">
@@ -51,9 +60,6 @@
     </div>
   </section>
 
-  <button mat-raised-button color="primary" id="btnAddUser" (click)="AgregarCurso()">
-    Agregar Curso
-  </button>
 
 
   <!-- <section class="footerCard">

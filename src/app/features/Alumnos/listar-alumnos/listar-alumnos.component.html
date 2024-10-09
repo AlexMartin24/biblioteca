@@ -8,13 +8,6 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.24/angular-material.min.css"
     rel="stylesheet" />
-  <style>
-    .centered-header,
-    .centered-cell {
-      text-align: center;
-      /* Centra el texto de los encabezados y las celdas */
-    }
-  </style>
 </head>
 
 <body>
@@ -26,8 +19,8 @@
       </button>
     </div>
   </section>
-  <section class="alumnos-table">
 
+  <section class="alumnos-table">
     <table mat-table [dataSource]="alumnos$" class="mat-elevation-z8">
       <ng-container matColumnDef="Nombre">
         <th mat-header-cell *matHeaderCellDef class="centered-header"> Nombre </th>

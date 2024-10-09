@@ -7,6 +7,15 @@
   background-size: cover;
 }
 
+.titulos {
+  display: flex; /* Utiliza flexbox */
+  justify-content: space-between; /* Espacio entre el título y el botón */
+  align-items: center; /* Centra verticalmente los elementos */
+  margin: 20px 0; /* Margen superior e inferior opcional */
+  padding-left: 1%;
+  padding-right: 1%;
+}
+
 body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
@@ -14,7 +23,7 @@ body {
   padding: 20px;
 }
 
-section {
+.cursos-card {
   display: flex;
   flex-wrap: wrap;
 }

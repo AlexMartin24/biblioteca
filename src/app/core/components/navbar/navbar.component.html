@@ -30,6 +30,27 @@
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
+
+        <section *ngIf="(isLoggedIn$ | async) === false">
+          <button
+            mat-flat-button
+            color="primary"
+            (click)="redirectToLogin()"
+          >
+            Iniciar Sesión
+          </button>
+        </section>
+
+        <section *ngIf="(isLoggedIn$ | async) === true">
+          <button
+            mat-flat-button
+            color="primary"
+            (click)="cerrarSesion()"
+            >
+            Cerrar Sesión
+          </button>
+        </section>
+
       </div>
     </div>
   </nav>
