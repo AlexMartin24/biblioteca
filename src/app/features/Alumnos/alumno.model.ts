@@ -10,4 +10,5 @@ export interface Alumno {
   direccion: string;
 
   cursos: Cursos [];
+  idTipoUsuario: number;
 }

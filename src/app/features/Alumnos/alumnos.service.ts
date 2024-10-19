@@ -34,6 +34,7 @@ export class AlumnosService {
           inscripciones: []
         },
       ],
+      idTipoUsuario: 1
     },
   ];
 

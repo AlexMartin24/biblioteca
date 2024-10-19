@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <!-- <button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
+    {{!isLinear ? 'Completar Formulario' : 'Disable linear mode'}}
+  </button> -->
+  <mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
+    <!-- Paso 1: Datos Personales -->
+    <mat-step [stepControl]="alumnoForm">
+      <form [formGroup]="alumnoForm">
+        <ng-template matStepLabel>Datos Personales</ng-template>
+        <mat-form-field>
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="nombre" placeholder="Ingrese su nombre" required />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Apellido</mat-label>
+          <input matInput formControlName="apellido" placeholder="Ingrese su apellido" required />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Tipo de Usuario</mat-label>
+          <mat-select formControlName="idTipoUsuario">
+            <mat-option value="1">Alumno</mat-option>
+            <mat-option value="2">Profesor</mat-option>
+            <mat-option value="3">Administrador</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- <mat-form-field>
+          <mat-label>Correo Electrónico</mat-label>
+          <input matInput type="email" formControlName="correo" placeholder="Ingrese su correo" required />
+        </mat-form-field> -->
+
+
+        <div>
+          <button mat-button matStepperNext>Siguiente</button>
+        </div>
+
+      </form>
+    </mat-step>
+
+    <!-- Paso 2: Datos Complementarios -->
+    <mat-step [stepControl]="alumnoSecondForm">
+      <form [formGroup]="alumnoSecondForm">
+        <ng-template matStepLabel>Datos Complementarios</ng-template>
+
+        <mat-form-field>
+          <mat-label>Dirección</mat-label>
+          <input matInput formControlName="direccion" placeholder="Ingrese su dirección" />
+        </mat-form-field>
+
+        <!-- <mat-form-field>
+          <mat-label>Cursos</mat-label>
+          <input matInput formControlName="cursos" placeholder="ID de Cursos" />
+        </mat-form-field> -->
+
+
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha de Nacimiento</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="fechaNacimiento">
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+
+        <mat-form-field>
+          <mat-label>Teléfono</mat-label>
+          <input matInput formControlName="telefono" placeholder="Ingrese su teléfono" />
+        </mat-form-field>
+
+
+        <div>
+          <button mat-button matStepperPrevious>Regresar</button>
+          <button mat-button matStepperNext>Siguiente</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <!-- Paso Final: Confirmación -->
+    <mat-step>
+      <ng-template matStepLabel>Completado</ng-template>
+      <p>Formulario completado.</p>
+      <div>
+        <button mat-button matStepperPrevious>Regresar</button>
+        <!-- <button mat-button (click)="stepper.reset()">Reset</button> -->
+        <button mat-raised-button color="primary" type="button" (click)="onSubmit()"
+          [disabled]="alumnoForm.invalid || alumnoSecondForm.invalid">
+          Enviar Formulario
+        </button>
+      </div>
+    </mat-step>
+  </mat-stepper>
+
+</body>
+
+</html>

@@ -1,0 +1,21 @@
+.cancel-button {
+    color: red; /* Cambia el color del botón de cancelar si es necesario */
+}
+
+.confirm-button {
+    background-color: #ec2828; /* Color para el botón de confirmación */
+    color: white;
+}
+
+.confirm-button:hover {
+    background-color: #c50e0e; /* Color al pasar el mouse */
+}
+
+.info-button {
+    background-color: #2196F3; /* Color para el botón de información */
+    color: white;
+}
+
+.info-button:hover {
+    background-color: #1976D2; /* Color al pasar el mouse */
+}

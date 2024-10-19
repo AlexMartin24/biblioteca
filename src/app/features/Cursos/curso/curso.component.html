@@ -12,8 +12,9 @@
 <body>
 
   <div class="container">
-    <mat-card *ngIf="!curso$" class="error-card">
-      <mat-card-title>Curso no encontrado.</mat-card-title>
+
+    <mat-card *ngIf="!curso$" class="error-curso">
+      <mat-card-title>Curso no disponible.</mat-card-title>
     </mat-card>
 
     <mat-card *ngIf="curso$" class="course-card">
@@ -54,7 +55,7 @@
 
             <ng-container matColumnDef="detalle">
               <th mat-header-cell *matHeaderCellDef> </th>
-              <td (click)="detalleAlumno(inscripcion.alumno.idAlumno)" mat-cell *matCellDef="let inscripcion"> Ver Más
+              <td class="btnDetalle" (click)="detalleAlumno(inscripcion.alumno.idAlumno)" mat-cell *matCellDef="let inscripcion"> Ver Más
               </td>
             </ng-container>
 

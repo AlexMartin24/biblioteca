@@ -24,9 +24,9 @@ export interface Estado {
   nombre: string;
 }
 
-export interface ProfesorResumen {
-  idProfesor: number;
-  nombre: string;
-  apellido: string;
-}
+// export interface ProfesorResumen {
+//   idProfesor: number;
+//   nombre: string;
+//   apellido: string;
+// }
 

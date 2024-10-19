@@ -18,12 +18,12 @@ export class DialogAlumnoComponent {
 
   constructor(
     private dialogRef: MatDialogRef<DialogAlumnoComponent>,
-    private alumnosService: AlumnosService,
 
     @Inject(MAT_DIALOG_DATA) public data: Alumno
   ) {
     {
       const regexTextos: string = '^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ.\\- ]{1,50}$';
+      const regexMail: string = "[a-zA-Z0-9!#$%&'*\/=?^_`\{\|\}~\+\-]([\.]?[a-zA-Z0-9!#$%&'*\/=?^_`\{\|\}~\+\-])+@[a-zA-Z0-9]([^@&%$\/\(\)=?¿!\.,:;]|\d)+[a-zA-Z0-9][\.][a-zA-Z]{2,4}([\.][a-zA-Z]{2})?";
 
       this.formularioEditar = new FormGroup({
         id: new FormControl(data.idAlumno, [
@@ -40,8 +40,8 @@ export class DialogAlumnoComponent {
         ]),
 
         correo: new FormControl(data.correo, [
-          // Validators.required,
-          // Validators.pattern(regexTextos),
+          Validators.required,
+          Validators.pattern(regexMail),
         ]),
 
         direccion: new FormControl(data.direccion, [

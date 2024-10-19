@@ -1,0 +1,111 @@
+/* Estilos generales para el formulario */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f7f6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+/* Estilos del stepper */
+mat-stepper {
+  margin-top: 9rem;
+
+  width: 100%;
+  max-width: 600px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos de las etiquetas de los pasos */
+mat-step {
+  margin-bottom: 20px;
+}
+
+mat-step .mat-step-header {
+  font-size: 18px;
+  font-weight: 600;
+  color: #3f51b5;
+}
+
+mat-step .mat-step-header .mat-step-icon {
+  color: #3f51b5;
+  border-color: #3f51b5;
+}
+
+mat-step .mat-step-header.mat-step-header-active {
+  background-color: #f1f1f1;
+  border-radius: 4px;
+}
+
+/* Estilos de los campos de formulario */
+mat-form-field {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+mat-label {
+  font-weight: 500;
+  color: #333;
+}
+
+input.mat-input-element,
+mat-select {
+  padding: 12px;
+}
+
+/* Estilos de los botones */
+button.mat-raised-button {
+  background-color: #3f51b5;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px;
+  padding: 10px 20px;
+}
+
+button.mat-raised-button:hover {
+  background-color: #303f9f;
+}
+
+button.mat-button {
+  font-weight: 500;
+}
+
+.mat-stepper-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+/* Estilos para los divisores entre campos */
+mat-divider {
+  margin: 20px 0;
+  background-color: #ddd;
+}
+
+/* Estilo para la sección final del stepper */
+mat-step p {
+  font-size: 16px;
+  color: #555;
+}
+
+/* Ajustes responsive */
+@media screen and (max-width: 600px) {
+  mat-stepper {
+    width: 90%;
+  }
+
+  .mat-stepper-footer {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .mat-stepper-footer button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}

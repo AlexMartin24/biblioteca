@@ -13,6 +13,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatPaginator } from '@angular/material/paginator';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';  // Para trabajar con fechas
 
 
 
@@ -33,6 +35,9 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatPaginator,
     MatCheckboxModule,
     MatRadioModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+
   ],
   exports: [
     CommonModule,
@@ -49,6 +54,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatPaginator,
     MatCheckboxModule,
     MatRadioModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
 
   ],
 })

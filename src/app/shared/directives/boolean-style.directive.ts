@@ -16,7 +16,7 @@ export class BooleanStyleDirective implements OnInit, OnChanges {
 
   constructor(private element: ElementRef, private renderer: Renderer2) {}
 
-  // Uso de ngOnInit: Se utiliza para configurar el componente/directiva una vez, cuando se inicializa.
+  // ngOnInit: Se utiliza para configurar el componente/directiva una vez, cuando se inicializa.
   ngOnInit(): void {
     this.renderer.setStyle(this.element.nativeElement, 'border-radius', '20px');
     this.renderer.setStyle(

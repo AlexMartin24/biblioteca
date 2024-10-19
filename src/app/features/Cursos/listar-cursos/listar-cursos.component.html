@@ -13,7 +13,7 @@
 <body>
   <section class="alumnos-header">
     <div class="titulos">
-      <h2>Bienvenido</h2>
+      <h2>Cursos Disponibles</h2>
       <button mat-raised-button color="primary" id="btnAddUser" (click)="AgregarCurso()">
         Agregar Curso
       </button>
@@ -48,6 +48,7 @@
               {{ item.curso.presencial | booleanToText : "Presencial" : "Remoto" }}
             </div>
             <a mat-button class="btnDetalle" (click)="detalleCurso(item.curso.idCurso)" target="_blank">Más</a>
+            
           </mat-card-subtitle>
 
         </mat-card-header>
@@ -56,6 +57,12 @@
           <button class="btnAdmin" mat-button color="warn" (click)="EliminarCurso(item.curso)"
             aria-label="EliminarCurso">Eliminar</button>
         </mat-card-actions>
+        
+        <mat-card-actions class="inscribirse">
+          <button class="btnDetalle" mat-raised-button color="primary" 
+          (click)="inscribirseAlCurso()">Inscribirse</button>
+        </mat-card-actions>
+
       </mat-card>
     </div>
   </section>

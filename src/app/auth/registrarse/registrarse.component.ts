@@ -28,8 +28,8 @@ export class RegistrarseComponent {
     this.loginService
       .register(this.registerUser.value)
       .then((response) => {
-        console.log(response);
-        this.router.navigate(['/auth/iniciar-sesion']);
+        console.log(this.registerUser.value);
+        this.router.navigate(['/form']);
       })
       .catch((error) => console.log(error));
   }

@@ -1,5 +1,5 @@
 import { Inscripcion } from '../Inscripciones/inscripcion.model';
-import { ProfesorResumen } from '../Profesor/profesor.model';
+// import { ProfesorResumen } from '../Profesor/profesor.model';
 
 export interface Cursos {
   idCurso: number;

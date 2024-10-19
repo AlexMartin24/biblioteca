@@ -6,45 +6,58 @@
     <title>Perfil del Profesor</title>
   </head>
   <body>
-    <div *ngIf="!profesor$">Profesor no encontrado.</div>
-    <div *ngIf="profesor$">
-      ID: {{ profesor$.idProfesor }} <br />
-      Nombre: {{ profesor$.nombre }} <br />
-      Apellido: {{ profesor$.apellido }} <br />
-      Correo: {{ profesor$.correo }} <br />
-      Telefono: {{ profesor$.telefono }} <br />
-      Fecha de Nacimiento:
-      {{ profesor$.fechaNacimiento | date : "dd/MM/yyyy" }} <br />
+    <div class="fondo-imagen">
+    <div class="profile-container">
+      <div *ngIf="!profesor$" class="no-encontrado">
+        Profesor no encontrado.
+      </div>
+      <div *ngIf="profesor$" class="profile-card">
+        <div class="profile-header">
+          <img src="assets/img/foto2.jpg" alt="Foto de perfil" class="profile-image" />
+          <h1>{{ profesor$.nombre }} {{ profesor$.apellido }}</h1>
+          <p>ID: {{ profesor$.idProfesor }}</p>
+        </div>
 
-      <!-- Especialidad: {{ profesor$.especialidad }} <br /> -->
-      <h2>Cursos Ofrecidos:</h2>
-      <ul>
-        <li *ngFor="let curso of profesor$.cursos">
-          <strong
-            >{{ curso.nombreCurso }} - Comision {{ curso.comision }}
-          </strong>
-          <br />
-          {{ curso.detalle }}
-        </li>
-      </ul>
+        <div class="profile-info">
+          <p><strong>Correo:</strong> {{ profesor$.correo }}</p>
+          <p><strong>Teléfono:</strong> {{ profesor$.telefono }}</p>
+          <p>
+            <strong>Fecha de Nacimiento:</strong>
+            {{ profesor$.fechaNacimiento | date: "dd/MM/yyyy" }}
+          </p>
+        </div>
 
-      <h2>Estudios</h2>
-      <ul>
-        <li *ngFor="let estudio of profesor$.estudios">
-          <strong>{{ estudio.nombre }}</strong
-          ><br />
-          Institución: {{ estudio.institucion }}<br />
-          Fecha de Obtención: {{ estudio.fechaObtencion | date : "dd/MM/yyyy" }}
-        </li>
-      </ul>
+        <div class="profile-section">
+          <h2>Cursos Ofrecidos</h2>
+          <ul class="courses-list">
+            <li *ngFor="let curso of profesor$.cursos">
+              <strong>{{ curso.nombreCurso }} - Comisión {{ curso.comision }}</strong>
+              <p>{{ curso.detalle }}</p>
+            </li>
+          </ul>
+        </div>
 
-      <h2>Estado</h2>
-      <ul>
-        <li *ngFor="let estado of profesor$.estado">
-          <strong>{{ estado.nombre }}</strong
-          ><br />
-        </li>
-      </ul>
+        <div class="profile-section">
+          <h2>Estudios</h2>
+          <ul class="studies-list">
+            <li *ngFor="let estudio of profesor$.estudios">
+              <strong>{{ estudio.nombre }}</strong>
+              <p>Institución: {{ estudio.institucion }}</p>
+              <p>Fecha de Obtención: {{ estudio.fechaObtencion | date: "dd/MM/yyyy" }}</p>
+            </li>
+          </ul>
+        </div>
+
+        <div class="profile-section">
+          <h2>Estado</h2>
+          <ul class="status-list">
+            <li *ngFor="let estado of profesor$.estado">
+              <strong>{{ estado.nombre }}</strong>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
+  </div>
   </body>
 </html>

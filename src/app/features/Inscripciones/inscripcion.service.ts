@@ -19,6 +19,8 @@ export class InscripcionService {
         telefono: "",
         direccion: "",
         cursos: [] // Puedes dejarlo vacío o incluir IDs de cursos
+        ,
+        idTipoUsuario: 1
       },
       idCurso: 1, // Solo almacenas el ID del curso
       fechaInscripcion: new Date(2024, 5, 25)

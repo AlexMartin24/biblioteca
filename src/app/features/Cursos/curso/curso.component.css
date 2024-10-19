@@ -6,7 +6,7 @@ body {
 }
 
 .container {
-    max-width: 800px; /* Ancho máximo para una mejor presentación */
+    max-width: 800px; /* Ancho máximo */
     margin: 0 auto;
 }
 
@@ -16,10 +16,6 @@ mat-card {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
 
-.error-card {
-    background-color: #ffdddd; /* Color de fondo para error */
-    border: 1px solid #ffcccc; /* Borde para destacar el error */
-}
 
 .course-card {
     background-color: #ffffff; /* Fondo blanco para los detalles del curso */
@@ -51,3 +47,28 @@ table {
     background-color: #f2f2f2;
   }
   
+
+  .btnDetalle {
+    display: inline-block; /* Mantiene el comportamiento como botón */
+    padding: 8px 16px; /* Ajustar el padding para un botón más grande */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cambia el cursor al pasar el mouse */
+    text-align: center; /* Centra el texto */
+    background-color: #007bff; /* Color de fondo */
+    color: white; /* Color del texto */
+    border: none; /* Sin borde */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Transiciones suaves */
+    margin-top: 5px;
+  }
+  
+  .btnDetalle:hover {
+    background-color: #0056b3; /* Color de fondo al pasar el mouse */
+    transform: scale(1.05); /* Aumenta ligeramente el tamaño al pasar el mouse */
+  }
+  
+
+  .error-curso {
+    text-align: center;
+    background-color: #ffdddd; /* Color de fondo para error */
+    border: 1px solid #ffcccc; /* Borde para destacar el error */
+}

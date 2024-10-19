@@ -8,10 +8,14 @@
 }
 
 .titulos {
-  display: flex; /* Utiliza flexbox */
-  justify-content: space-between; /* Espacio entre el título y el botón */
-  align-items: center; /* Centra verticalmente los elementos */
-  margin: 20px 0; /* Margen superior e inferior opcional */
+  display: flex;
+  /* Utiliza flexbox */
+  justify-content: space-between;
+  /* Espacio entre el título y el botón */
+  align-items: center;
+  /* Centra verticalmente los elementos */
+  margin: 20px 0;
+  /* Margen superior e inferior opcional */
   padding-left: 1%;
   padding-right: 1%;
 }
@@ -29,7 +33,8 @@ body {
 }
 
 .example-card {
-  width: 300px; /* Ancho fijo */
+  width: 300px;
+  /* Ancho fijo */
   /* height: 400px; Altura fija para todas las tarjetas */
   margin: 10px;
   background-color: #ffffff;
@@ -37,7 +42,8 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s;
   display: flex;
-  flex-direction: column; /* Alinear contenido verticalmente */
+  flex-direction: column;
+  /* Alinear contenido verticalmente */
 }
 
 .example-card:hover {
@@ -63,8 +69,10 @@ mat-card-subtitle {
 
 mat-card-content {
   padding: 16px;
-  flex-grow: 1; /* Permitir que el contenido crezca y ocupe espacio */
-  overflow: auto; /* Agregar scroll si el contenido es demasiado */
+  flex-grow: 1;
+  /* Permitir que el contenido crezca y ocupe espacio */
+  overflow: auto;
+  /* Agregar scroll si el contenido es demasiado */
 }
 
 mat-card-actions {
@@ -83,29 +91,50 @@ mat-card-actions {
 /* Boton de editar y eliminar */
 .btnAdmin {
   margin-left: 8px;
-  margin-right: 45px; /* Espacio a la derecha del botón */
+  margin-right: 45px;
+  /* Espacio a la derecha del botón */
   margin-top: 10px;
 }
 
 .paginator-container {
-  display: flex; /* Utiliza flexbox para alinear los elementos */
-  margin-top: 20px; /* Espacio superior (ajusta según sea necesario) */
+  display: flex;
+  /* Utiliza flexbox para alinear los elementos */
+  margin-top: 20px;
+  /* Espacio superior (ajusta según sea necesario) */
 }
 
 .btnDetalle {
-  display: inline-block; /* Mantiene el comportamiento como botón */
-  padding: 8px 16px; /* Ajustar el padding para un botón más grande */
-  border-radius: 5px; /* Bordes redondeados */
-  cursor: pointer; /* Cambia el cursor al pasar el mouse */
-  text-align: center; /* Centra el texto */
-  background-color: #007bff; /* Color de fondo */
-  color: white; /* Color del texto */
-  border: none; /* Sin borde */
-  transition: background-color 0.3s ease, transform 0.2s ease; /* Transiciones suaves */
+  display: inline-block;
+  /* Mantiene el comportamiento como botón */
+  padding: 8px 16px;
+  /* Ajustar el padding para un botón más grande */
+  border-radius: 5px;
+  /* Bordes redondeados */
+  cursor: pointer;
+  /* Cambia el cursor al pasar el mouse */
+  text-align: center;
+  /* Centra el texto */
+  background-color: #007bff;
+  /* Color de fondo */
+  color: white;
+  /* Color del texto */
+  border: none;
+  /* Sin borde */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  /* Transiciones suaves */
   margin-top: 5px;
 }
 
 .btnDetalle:hover {
-  background-color: #0056b3; /* Color de fondo al pasar el mouse */
-  transform: scale(1.05); /* Aumenta ligeramente el tamaño al pasar el mouse */
+  background-color: #0056b3;
+  /* Color de fondo al pasar el mouse */
+  transform: scale(1.05);
+  /* Aumenta ligeramente el tamaño al pasar el mouse */
+}
+
+.inscribirse {
+  background-color: #eee8e8;
+  padding: 8px 16px;
+  display: flex;
+  justify-content: center;
 }
