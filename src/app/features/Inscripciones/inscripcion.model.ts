@@ -1,9 +1,7 @@
-import { Alumno } from "../Alumnos/alumno.model";
-import { Cursos } from "../Cursos/curso.model";
 
 export interface Inscripcion {
-  idInscripcion: number;
-  alumno: Alumno; // Referencia al alumno
-  idCurso: number;
-  fechaInscripcion: Date; // Fecha en que se inscribió
+  id: string; // ID de la inscripción en Firebase
+  idCurso: string; // ID del curso
+  idAlumno: string; // ID del alumno
+  fecha: string; // Fecha de inscripción
 }

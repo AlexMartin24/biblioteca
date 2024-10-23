@@ -42,7 +42,7 @@ export class CursoComponent {
         // console.log('---- EXISTE ID DEL CURSO - ---');
         // +this.idCurso convierte el string a un número y llamamos a obtenerCurso
         this.ObtenerCursoPorId(+this.idCurso);
-        this.ObtenerAlumnosPorCurso(+this.idCurso);
+        // this.ObtenerAlumnosPorCurso(+this.idCurso);
       } else {
         // console.log('---- NO SE ENCONTRÓ ID DEL CURSO - ---');
       }
@@ -61,12 +61,12 @@ export class CursoComponent {
 
 
 
-  ObtenerAlumnosPorCurso(idCurso: number) {
-    this.inscripcionService.ObtenerAlumnosPorCurso(idCurso).subscribe((inscripciones: Inscripcion[]) => {
-      this.listaInscripcion$ = inscripciones; // Asigna la lista de inscripciones
-      console.log(this.listaInscripcion$);
-    });
-  }
+  // ObtenerAlumnosPorCurso(idCurso: number) {
+  //   this.inscripcionService.ObtenerAlumnosPorCurso(idCurso).subscribe((inscripciones: Inscripcion[]) => {
+  //     this.listaInscripcion$ = inscripciones; // Asigna la lista de inscripciones
+  //     console.log(this.listaInscripcion$);
+  //   });
+  // }
 
   detalleAlumno(idAlumno: number) {
     this.router.navigate(['/alumno/', idAlumno]);

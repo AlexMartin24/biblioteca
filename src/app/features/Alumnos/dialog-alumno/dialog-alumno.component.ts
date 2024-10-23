@@ -1,20 +1,21 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Alumno } from '../alumno.model';
-import { AlumnosService } from '../alumnos.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { SharedModule } from '../../../shared/shared.module';
+import { regexDireccion, regexMail, regexNumeros, regexTextos } from '../../../shared/pattern/patterns';
+import { Timestamp } from 'firebase/firestore';
+
 
 @Component({
   selector: 'app-dialog-alumno',
   standalone: true,
   imports: [SharedModule],
   templateUrl: './dialog-alumno.component.html',
-  styleUrl: './dialog-alumno.component.css',
+  styleUrls: ['./dialog-alumno.component.css'],
 })
 export class DialogAlumnoComponent {
-  formularioEditar!: FormGroup;
-  alumnosObtenidos: Alumno[] = [];
+  formularioEditar: FormGroup;
 
   constructor(
     private dialogRef: MatDialogRef<DialogAlumnoComponent>,
@@ -22,14 +23,7 @@ export class DialogAlumnoComponent {
     @Inject(MAT_DIALOG_DATA) public data: Alumno
   ) {
     {
-      const regexTextos: string = '^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ.\\- ]{1,50}$';
-      const regexMail: string = "[a-zA-Z0-9!#$%&'*\/=?^_`\{\|\}~\+\-]([\.]?[a-zA-Z0-9!#$%&'*\/=?^_`\{\|\}~\+\-])+@[a-zA-Z0-9]([^@&%$\/\(\)=?¿!\.,:;]|\d)+[a-zA-Z0-9][\.][a-zA-Z]{2,4}([\.][a-zA-Z]{2})?";
-
       this.formularioEditar = new FormGroup({
-        id: new FormControl(data.idAlumno, [
-          Validators.min(1),
-          Validators.max(9999),
-        ]),
         nombre: new FormControl(data.nombre, [
           Validators.required,
           Validators.pattern(regexTextos),
@@ -38,41 +32,54 @@ export class DialogAlumnoComponent {
           Validators.required,
           Validators.pattern(regexTextos),
         ]),
-
         correo: new FormControl(data.correo, [
           Validators.required,
           Validators.pattern(regexMail),
         ]),
-
         direccion: new FormControl(data.direccion, [
           // Validators.required,
-          // Validators.pattern(regexTextos),
+          Validators.pattern(regexDireccion),
         ]),
-
         fechaNacimiento: new FormControl(data.fechaNacimiento, [
           // Validators.required,
-          // Validators.pattern(regexTextos),
         ]),
-
         telefono: new FormControl(data.telefono, [
           // Validators.required,
-          // Validators.pattern(regexTextos),
+          Validators.pattern(regexNumeros),
         ]),
       });
     }
   }
-
+  
+  
   aceptar() {
+    // if (this.formularioEditar.invalid) {
+    //   this.dialogRef.close(this.formularioEditar.value);
+    //   console.log('Form invalido:', this.formularioEditar.value);
+    // }
+
     if (this.formularioEditar.valid) {
-      // console.log('Valor de Presencial:', this.formularioEditar.value.presencial); // Verificar valor de T or F presencial
-      this.dialogRef.close(this.formularioEditar.value); // Cierra el diálogo y pasa los datos del formulario
-      console.log('Form completado:', this.formularioEditar.value); // Verificar valor del form
+      this.dialogRef.close(this.formularioEditar.value);
+      console.log('Form completado:', this.formularioEditar.value);
     } else {
-      this.formularioEditar.markAllAsTouched(); // Marca todos los campos como tocados para mostrar los errores
+      this.formularioEditar.markAllAsTouched();
     }
   }
 
-  Cancelar() {
-    this.dialogRef.close(); // Cierra el diálogo sin pasar datos
+  cancelar() {
+    this.dialogRef.close();
   }
+
+  onFechaNacimientoInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const date = new Date(input.value);
+
+    if (!isNaN(date.getTime())) {
+      const timestamp = Timestamp.fromDate(date);
+      this.formularioEditar.controls['fechaNacimiento'].setValue(timestamp);
+    } else {
+      this.formularioEditar.controls['fechaNacimiento'].setValue(null);
+    }
+  }
+
 }

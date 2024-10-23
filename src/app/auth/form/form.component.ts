@@ -4,6 +4,7 @@ import { Alumno } from '../../features/Alumnos/alumno.model';
 import { AuthService } from '../auth.service';
 import { SharedModule } from '../../shared/shared.module';
 import { MatDividerModule } from '@angular/material/divider';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-form',
@@ -25,7 +26,7 @@ export class FormComponent {
 
   isLinear = true;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private router: Router,) {
     // Formulario de Datos Personales
     this.alumnoForm = this._formBuilder.group({
       nombre: ['', Validators.required],
@@ -78,6 +79,8 @@ export class FormComponent {
       .then(() => {
         console.log('Datos guardados correctamente');
         // Aquí podrías navegar a otra ruta si es necesario
+        this.router.navigate(['/cursos/']);
+
       })
       .catch((error: any) => {
         console.error('Error guardando datos: ', error); // Maneja el error si ocurre

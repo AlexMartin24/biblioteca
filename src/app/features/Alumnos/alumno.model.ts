@@ -1,7 +1,7 @@
 import { Cursos } from "../Cursos/curso.model";
 
 export interface Alumno {
-  idAlumno: number;
+  idAlumno: string;
   nombre: string;
   apellido: string;
   correo: string;
@@ -9,6 +9,6 @@ export interface Alumno {
   telefono: string;
   direccion: string;
 
-  cursos: Cursos [];
+  // cursos: Cursos [];
   idTipoUsuario: number;
 }

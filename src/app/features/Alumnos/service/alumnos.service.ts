@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Alumno } from './alumno.model';
 import { BehaviorSubject, map, Observable, of } from 'rxjs';
+import { Alumno } from '../alumno.model';
 
 @Injectable({
   providedIn: 'root',
@@ -8,32 +8,32 @@ import { BehaviorSubject, map, Observable, of } from 'rxjs';
 export class AlumnosService {
   private listaAlumnos: Alumno[] = [
     {
-      idAlumno: 1,
+      idAlumno: "1",
       nombre: 'Juan',
       apellido: 'Gonzalez',
       correo: 'juangonzalez@gmail.com',
       fechaNacimiento: new Date(1993, 11, 17),
       telefono: '1141123456',
       direccion: 'Calle Falsa 123',
-      cursos: [
-        {
-          idCurso: 1,
-          comision: '123-MAÑANA',
-          detalle: 'Lunes y Miércoles de 10:00 a 12:00',
-          nombreCurso: 'ALED III',
-          descripcion: 'Algoritmo y Estructura de Datos III',
-          presencial: true,
-          fechaInicio: new Date(2022, 11, 17),
-          fechaFin: new Date(2023, 11, 17),
-          // profesor: {
-          //   idProfesor: 1,
-          //   nombre: 'Felipe',
-          //   apellido: 'Martinez',
-          // },
-          idProfesor: 1,
-          inscripciones: []
-        },
-      ],
+      // cursos: [
+      //   {
+      //     idCurso: 1,
+      //     comision: '123-MAÑANA',
+      //     detalle: 'Lunes y Miércoles de 10:00 a 12:00',
+      //     nombreCurso: 'ALED III',
+      //     descripcion: 'Algoritmo y Estructura de Datos III',
+      //     presencial: true,
+      //     fechaInicio: new Date(2022, 11, 17),
+      //     fechaFin: new Date(2023, 11, 17),
+      //     // profesor: {
+      //     //   idProfesor: 1,
+      //     //   nombre: 'Felipe',
+      //     //   apellido: 'Martinez',
+      //     // },
+      //     idProfesor: 1,
+      //     inscripciones: []
+      //   },
+      // ],
       idTipoUsuario: 1
     },
   ];
@@ -49,8 +49,8 @@ export class AlumnosService {
     return this.listaAlumnos$.asObservable();
   }
 
-  ObtenerAlumnoPorId(id: number): Alumno | undefined {
-    return this.listaAlumnos$.value.find((alumno) => alumno.idAlumno === id);
+  ObtenerAlumnoPorId(idAlumno: string): Alumno | undefined {
+    return this.listaAlumnos$.value.find((alumno) => alumno.idAlumno === idAlumno);
   }
 
   EliminarAlumno(alumno: Alumno) {

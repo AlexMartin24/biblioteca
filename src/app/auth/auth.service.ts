@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from '@angular/fire/auth';
-import { Firestore, doc, setDoc } from '@angular/fire/firestore'; // Importa Firestore y las funciones necesarias
+import { Firestore, collection, doc, getDoc, getDocs, setDoc, updateDoc } from '@angular/fire/firestore'; // Importa Firestore y las funciones necesarias
 import { Observable, BehaviorSubject } from 'rxjs';
+import { Usuario } from './usuario.model';
+import { Alumno } from '../features/Alumnos/alumno.model';
 
 @Injectable({
   providedIn: 'root',
@@ -31,12 +33,17 @@ export class AuthService {
     return signOut(this.auth);
   }
 
+  // Crear el usuario.
   async register({ email, password, additionalData }: any) {
+    // userCredential Devuelve un objeto que contiene información sobre el usuario registrado
     const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
     const user = userCredential.user;
 
+
     // Guardar datos adicionales en Firestore
+    // al utilizar (usuarios/${user.uid}) se garantiza que cada usuario tenga su propio documento en la colección
     const userRef = doc(this.firestore, `usuarios/${user.uid}`);
+    // setDoc() es una función para guardar o actualizar datos en el documento
     await setDoc(userRef, {
       email: user.email,
       ...additionalData,
@@ -48,10 +55,30 @@ export class AuthService {
     return user ? user.uid : null; // Devuelve el ID del usuario o null si no está autenticado
   }
 
-  addUserData(userId: string, additionalData: any) {
-    const userRef = doc(this.firestore, `usuarios/${userId}`);
+  addUserData(idUsuario: string, additionalData: any) {
+    const userRef = doc(this.firestore, `usuarios/${idUsuario}`);
     return setDoc(userRef, additionalData);
   }
 
   
+  async getUsers(): Promise<Alumno[]> {
+    const usersRef = collection(this.firestore, 'usuarios');
+    const userSnapshots = await getDocs(usersRef);
+
+    const users: Alumno[] = userSnapshots.docs.map(doc => ({
+      idAlumno: doc.id,
+      ...doc.data()
+    })) as unknown  as Alumno[];
+
+    return users;
+  }
+
+  async updateUserData(idUsuario: string, editarAlumno: Partial<Alumno>): Promise<void> {
+    const userRef = doc(this.firestore, `usuarios/${idUsuario}`);
+    // console.log('ID del alumno:', idUsuario);
+    await updateDoc(userRef, editarAlumno);
+}
+
+  
+
 }

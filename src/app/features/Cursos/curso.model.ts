@@ -15,5 +15,6 @@ export interface Cursos {
 
   idProfesor: number;
   inscripciones: Inscripcion[];
+  alumnosInscritos?: { [key: string]: boolean }; // IDs de alumnos inscritos
 
 }

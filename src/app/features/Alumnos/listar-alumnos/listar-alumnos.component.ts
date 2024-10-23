@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { Alumno } from '../alumno.model';
-import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { AlumnosService } from '../alumnos.service';
 import { SharedModule } from '../../../shared/shared.module';
 import { DialogAlumnoComponent } from '../dialog-alumno/dialog-alumno.component';
 import { Router } from '@angular/router';
 import { ConfirmDialogComponent } from '../../../core/components/confirm-dialog/confirm-dialog.component';
+import { AlumnosService } from '../service/alumnos.service';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-listar-alumnos',
@@ -16,57 +16,94 @@ import { ConfirmDialogComponent } from '../../../core/components/confirm-dialog/
   styleUrl: './listar-alumnos.component.css',
 })
 export class ListarAlumnosComponent {
-  alumnos$!: Observable<Alumno[]>;
+  // alumnos$!: Observable<Alumno[]>;
+  alumnos$!: Alumno[];
+
 
   constructor(
     private dialog: MatDialog,
     private alumnosService: AlumnosService,
+    private authService: AuthService,
+
     private router: Router,
   ) { }
 
   ngOnInit(): void {
-    this.obtenerAlumnos();
+    // this.obtenerAlumnos();
+    this.obtenerAlumnosFirebase();
   }
 
-  obtenerAlumnos() {
-    this.alumnos$ = this.alumnosService.ObtenerAlumnosObservable();
-    console.log(this.alumnos$);
+  async obtenerAlumnosFirebase() {
+    try {
+      this.alumnos$ = await this.authService.getUsers();
+      console.log(this.alumnos$);
+    } catch (error) {
+      console.error("Error al obtener los usuarios:", error);
+    }
   }
+
+
+
+
+  // obtenerAlumnos() {
+  //   this.alumnos$ = this.alumnosService.ObtenerAlumnosObservable();
+  //   console.log(this.alumnos$);
+  // }
 
   // obtenerAlumno() {
   //   alert('Info del alumno');
   // }
 
   EditarAlumno(alumno: Alumno) {
+    // console.log('ID del alumno:', alumno.idAlumno); // Comprobar el ID del alumno
+
+    // if (!alumno.idAlumno) {
+    //     console.error('ID del alumno es indefinido');
+    //     this.dialog.open(ConfirmDialogComponent, {
+    //         data: {
+    //             title: 'Error',
+    //             message: 'No se puede editar un alumno sin un ID.',
+    //             type: 'error',
+    //         },
+    //     });
+    //     return; // Salir si el ID no es válido
+    // }
+
     const dialogRef = this.dialog.open(DialogAlumnoComponent, {
       data: alumno,
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(async (result) => {
       if (result) {
-        const editarAlumno: Alumno = {
-          idAlumno: alumno.idAlumno,
+        const editarAlumno: Partial<Alumno> = {
           nombre: result.nombre,
           apellido: result.apellido,
           correo: result.correo,
           fechaNacimiento: result.fechaNacimiento,
           telefono: result.telefono,
           direccion: result.direccion,
-          cursos: result.cursos,
-          idTipoUsuario: alumno.idTipoUsuario,
         };
 
-        // Llama al servicio para editar el alumno
-        this.alumnosService.EditarAlumno(editarAlumno);
-        // console.log('alumno editado correctamente', result);
-        this.dialog.open(ConfirmDialogComponent, {
-          data: {
-            title: 'Éxito',
-            message: 'Datos editados correctamente.',
-            type: 'info',
-          },
-        });
-
+        try {
+          await this.authService.updateUserData(alumno.idAlumno, editarAlumno);
+          console.log('Alumno editado correctamente', result);
+          this.dialog.open(ConfirmDialogComponent, {
+            data: {
+              title: 'Éxito',
+              message: 'Datos editados correctamente.',
+              type: 'info',
+            },
+          });
+        } catch (error) {
+          console.error('Error al editar el alumno:', error);
+          this.dialog.open(ConfirmDialogComponent, {
+            data: {
+              title: 'Error',
+              message: 'No se pudo editar los datos del alumno.',
+              type: 'error',
+            },
+          });
+        }
       }
     });
   }
@@ -88,14 +125,14 @@ export class ListarAlumnosComponent {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         const nuevoAlumno: Alumno = {
-          idAlumno: obtenerSiguienteNumero(),
+          idAlumno: "12",
           nombre: result.nombre,
           apellido: result.apellido,
           correo: result.correo,
           fechaNacimiento: new Date(),
           telefono: result.telefono,
           direccion: result.direccion,
-          cursos: result.cursos,
+          // cursos: result.cursos,
           idTipoUsuario: 1
         };
 
@@ -139,10 +176,6 @@ export class ListarAlumnosComponent {
     });
   }
 
-  //Angular utiliza un identificador para determinar qué elementos han cambiado y así minimizar el número de actualizaciones necesarias en el DOM.
-  trackByAlumnosId(index: number, alumno: Alumno) {
-    return alumno.idAlumno;
-  }
 
   detalleAlumno(idAlumno: number) {
     this.router.navigate(['/alumno/', idAlumno]);

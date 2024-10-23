@@ -14,18 +14,18 @@ import { AuthService } from '../auth.service';
 export class RegistrarseComponent {
   registerUser!: FormGroup;
 
-  constructor(private loginService: AuthService, private router: Router) {
+  constructor(private authService: AuthService, private router: Router) {
     this.registerUser = new FormGroup({
       email: new FormControl(),
       password: new FormControl(),
     });
   }
 
-  ngOnInit(): void {}
+
 
   onSubmit() {
     // console.log(this.registerUser.value);
-    this.loginService
+    this.authService
       .register(this.registerUser.value)
       .then((response) => {
         console.log(this.registerUser.value);

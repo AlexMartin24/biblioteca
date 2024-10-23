@@ -5,12 +5,15 @@ import { BooleanToTextPipe } from './pipes/boolean-to-text.pipe';
 import { BooleanStyleDirective } from './directives/boolean-style.directive';
 import { UnionNombreApellidoPipe } from './pipes/union-nombre-apellido.pipe';
 import { SizeTittleDirective } from './directives/size-tittle.directive';
+import { TimestampToDatePipe } from './pipes/timestamp-to-date.pipe';
 
 @NgModule({
   declarations: [
     BooleanToTextPipe,
-    BooleanStyleDirective,
     UnionNombreApellidoPipe,
+    TimestampToDatePipe,
+
+    BooleanStyleDirective,
     SizeTittleDirective,
   ],
   imports: [
@@ -20,10 +23,13 @@ import { SizeTittleDirective } from './directives/size-tittle.directive';
   exports:[
     MaterialModule,
     ReactiveFormsModule,
+    
     BooleanToTextPipe,
-    BooleanStyleDirective,
     UnionNombreApellidoPipe,
+    TimestampToDatePipe,
+    
     SizeTittleDirective,
+    BooleanStyleDirective,
   ],
 })
 export class SharedModule { }

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { SharedModule } from '../../../shared/shared.module';
 import { Alumno } from '../alumno.model';
-import { AlumnosService } from '../alumnos.service';
 import { ActivatedRoute } from '@angular/router';
+import { AlumnosService } from '../service/alumnos.service';
 
 @Component({
   selector: 'app-perfil-alumno',
@@ -27,7 +27,7 @@ export class PerfilAlumnoComponent {
       if (this.idAlumno) {
         console.log('---- EXISTE ID DEL ALUMNO - ---');
         // +this.idAlumno convierte el string a un número y llamamos a obtenerAlumno
-        this.obtenerAlumno(+this.idAlumno);
+        this.obtenerAlumno(this.idAlumno);
       } else {
         console.log('---- NO SE ENCONTRÓ ID DEL ALUMNO - ---');
       }
@@ -35,7 +35,7 @@ export class PerfilAlumnoComponent {
   }
 
   //recupera datos del alumno
-  obtenerAlumno(idAlumno: number): void {
+  obtenerAlumno(idAlumno: string): void {
     this.alumno$ = this.alumnosService.ObtenerAlumnoPorId(idAlumno);
     console.log(this.alumno$);
   }
