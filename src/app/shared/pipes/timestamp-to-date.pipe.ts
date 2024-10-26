@@ -1,15 +1,15 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { Timestamp } from 'firebase/firestore';
+import { Pipe, PipeTransform } from '@angular/core'; // Importa las clases necesarias para definir un pipe
+import { Timestamp } from 'firebase/firestore'; // Importa Timestamp de Firebase Firestore
 
 @Pipe({
-  name: 'timestampToDate'
+  name: 'timestampToDate', // Nombre del pipe que se usará en las plantillas
 })
 export class TimestampToDatePipe implements PipeTransform {
-  transform(timestamp: Timestamp | null): string {
-    if (timestamp) {
-      const date = new Date(timestamp.seconds * 1000 + Math.floor(timestamp.nanoseconds / 1000000));
-      return date.toISOString().split('T')[0]; // Devuelve en formato YYYY-MM-DD
+  // Método que transforma el valor recibido en un formato de fecha
+  transform(value: any): Date | null {
+    if (value instanceof Timestamp) {
+      return value.toDate();
     }
-    return ''; // Devuelve un string vacío si no hay timestamp
+    return value; // Si no es un Timestamp, retornamos el valor original
   }
 }

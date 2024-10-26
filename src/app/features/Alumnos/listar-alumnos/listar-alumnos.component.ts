@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { ConfirmDialogComponent } from '../../../core/components/confirm-dialog/confirm-dialog.component';
 import { AlumnosService } from '../service/alumnos.service';
 import { AuthService } from '../../../auth/auth.service';
+import { Timestamp } from 'firebase/firestore';
 
 @Component({
   selector: 'app-listar-alumnos',
@@ -33,16 +34,19 @@ export class ListarAlumnosComponent {
     this.obtenerAlumnosFirebase();
   }
 
-  async obtenerAlumnosFirebase() {
-    try {
-      this.alumnos$ = await this.authService.getUsers();
-      console.log(this.alumnos$);
-    } catch (error) {
-      console.error("Error al obtener los usuarios:", error);
-    }
+
+  obtenerAlumnosFirebase() {
+    this.authService.getUsers().subscribe({
+      next: (data) => {
+        this.alumnos$ = data;
+      },
+      error: (error) => {
+        console.error('Error al obtener usuarios:', error);
+      },
+    });
   }
 
-
+    
 
 
   // obtenerAlumnos() {
@@ -185,9 +189,3 @@ export class ListarAlumnosComponent {
 
 }
 
-let ultimoNumero = 10; // Empieza antes del rango deseado
-function obtenerSiguienteNumero() {
-  ultimoNumero++;
-  console.log(ultimoNumero);
-  return ultimoNumero;
-}

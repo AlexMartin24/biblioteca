@@ -3,9 +3,13 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Alumno } from '../alumno.model';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { SharedModule } from '../../../shared/shared.module';
-import { regexDireccion, regexMail, regexNumeros, regexTextos } from '../../../shared/pattern/patterns';
-import { Timestamp } from 'firebase/firestore';
 
+import {
+  regexDireccion,
+  regexMail,
+  regexNumeros,
+  regexTextos,
+} from '../../../shared/pattern/patterns';
 
 @Component({
   selector: 'app-dialog-alumno',
@@ -19,48 +23,40 @@ export class DialogAlumnoComponent {
 
   constructor(
     private dialogRef: MatDialogRef<DialogAlumnoComponent>,
-
     @Inject(MAT_DIALOG_DATA) public data: Alumno
   ) {
-    {
-      this.formularioEditar = new FormGroup({
-        nombre: new FormControl(data.nombre, [
-          Validators.required,
-          Validators.pattern(regexTextos),
-        ]),
-        apellido: new FormControl(data.apellido, [
-          Validators.required,
-          Validators.pattern(regexTextos),
-        ]),
-        correo: new FormControl(data.correo, [
-          Validators.required,
-          Validators.pattern(regexMail),
-        ]),
-        direccion: new FormControl(data.direccion, [
-          // Validators.required,
-          Validators.pattern(regexDireccion),
-        ]),
-        fechaNacimiento: new FormControl(data.fechaNacimiento, [
-          // Validators.required,
-        ]),
-        telefono: new FormControl(data.telefono, [
-          // Validators.required,
-          Validators.pattern(regexNumeros),
-        ]),
-      });
-    }
+    this.formularioEditar = new FormGroup({
+      nombre: new FormControl(data.nombre, [
+        Validators.required,
+        Validators.pattern(regexTextos),
+      ]),
+      apellido: new FormControl(data.apellido, [
+        Validators.required,
+        Validators.pattern(regexTextos),
+      ]),
+      correo: new FormControl(data.correo, [
+        Validators.required,
+        Validators.pattern(regexMail),
+      ]),
+      direccion: new FormControl(data.direccion, [
+        Validators.pattern(regexDireccion),
+      ]),
+      fechaNacimiento: new FormControl(data.fechaNacimiento, [
+        // Validators.required,
+      ]),
+      telefono: new FormControl(data.telefono, [
+        Validators.pattern(regexNumeros),
+      ]),
+    });
   }
-  
-  
-  aceptar() {
-    // if (this.formularioEditar.invalid) {
-    //   this.dialogRef.close(this.formularioEditar.value);
-    //   console.log('Form invalido:', this.formularioEditar.value);
-    // }
 
+  aceptar() {
     if (this.formularioEditar.valid) {
-      this.dialogRef.close(this.formularioEditar.value);
-      console.log('Form completado:', this.formularioEditar.value);
+      const formData = this.formularioEditar.value;
+      this.dialogRef.close({
+        ...formData,
+      });
+      console.log('Form completado:', formData);
     } else {
       this.formularioEditar.markAllAsTouched();
     }
@@ -69,17 +65,4 @@ export class DialogAlumnoComponent {
   cancelar() {
     this.dialogRef.close();
   }
-
-  onFechaNacimientoInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const date = new Date(input.value);
-
-    if (!isNaN(date.getTime())) {
-      const timestamp = Timestamp.fromDate(date);
-      this.formularioEditar.controls['fechaNacimiento'].setValue(timestamp);
-    } else {
-      this.formularioEditar.controls['fechaNacimiento'].setValue(null);
-    }
-  }
-
 }

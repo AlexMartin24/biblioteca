@@ -11,11 +11,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatSelectModule } from '@angular/material/select';
 import { MatPaginator } from '@angular/material/paginator';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';  // Para trabajar con fechas
-
+import { DateAdapter, MatNativeDateModule } from '@angular/material/core';
+import { CustomDateAdapter } from '../fecha/CustomDateAdapter';
 
 
 @NgModule({
@@ -37,7 +37,6 @@ import { MatNativeDateModule } from '@angular/material/core';  // Para trabajar 
     MatRadioModule,
     MatDatepickerModule,
     MatNativeDateModule,
-
   ],
   exports: [
     CommonModule,
@@ -56,7 +55,11 @@ import { MatNativeDateModule } from '@angular/material/core';  // Para trabajar 
     MatRadioModule,
     MatDatepickerModule,
     MatNativeDateModule,
-
+    
   ],
+  providers: [
+    { provide: DateAdapter, useClass: CustomDateAdapter },
+  ],
+
 })
 export class MaterialModule {}

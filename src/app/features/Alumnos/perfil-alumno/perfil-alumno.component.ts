@@ -3,6 +3,8 @@ import { SharedModule } from '../../../shared/shared.module';
 import { Alumno } from '../alumno.model';
 import { ActivatedRoute } from '@angular/router';
 import { AlumnosService } from '../service/alumnos.service';
+import { AuthService } from '../../../auth/auth.service';
+import { Timestamp } from 'firebase/firestore';
 
 @Component({
   selector: 'app-perfil-alumno',
@@ -12,11 +14,11 @@ import { AlumnosService } from '../service/alumnos.service';
   styleUrl: './perfil-alumno.component.css',
 })
 export class PerfilAlumnoComponent {
-  alumno$: Alumno | undefined;
+  alumno$!: Alumno;
   idAlumno!: string | null; // almacenar el ID en string ya que viene como parametro
 
   constructor(
-    private alumnosService: AlumnosService,
+    private alumnosService: AuthService,
     private route: ActivatedRoute // ActivatedRoute se usa Para acceder a los parámetros de la ruta
   ) {}
 
@@ -27,16 +29,26 @@ export class PerfilAlumnoComponent {
       if (this.idAlumno) {
         console.log('---- EXISTE ID DEL ALUMNO - ---');
         // +this.idAlumno convierte el string a un número y llamamos a obtenerAlumno
-        this.obtenerAlumno(this.idAlumno);
+        this.getUser(this.idAlumno);
       } else {
         console.log('---- NO SE ENCONTRÓ ID DEL ALUMNO - ---');
       }
     });
   }
 
-  //recupera datos del alumno
-  obtenerAlumno(idAlumno: string): void {
-    this.alumno$ = this.alumnosService.ObtenerAlumnoPorId(idAlumno);
-    console.log(this.alumno$);
+  async getUser(idAlumno: string) {
+    const alumnoData = await this.alumnosService.getUser(idAlumno);
+    if (!alumnoData) {
+      console.log('No se encontró el usuario');
+    } else {
+      // Convertir Timestamp a Date si es necesario
+      if (alumnoData.fechaNacimiento instanceof Timestamp) {
+        alumnoData.fechaNacimiento = alumnoData.fechaNacimiento.toDate();
+      }
+      this.alumno$ = alumnoData;
+      console.log('Usuario encontrado:', this.alumno$);
+    }
+    }
+
+
   }
-}

@@ -6,7 +6,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 import { Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { MockapiService } from '../services/mockapi.service';
 import { ProfesorService } from '../services/profesor.service';
 // import { FirebaseService } from '../../../firebase.service';
 
@@ -14,7 +13,6 @@ import { ProfesorService } from '../services/profesor.service';
   selector: 'app-listar-profesor',
   standalone: true,
   imports: [SharedModule, HttpClientModule  ],
-  providers: [MockapiService], // Añadir el servicio aquí
 
   templateUrl: './listar-profesor.component.html',
   styleUrls: ['./listar-profesor.component.css'],
@@ -34,7 +32,6 @@ export class ListarProfesorComponent implements OnInit {
     private dialog: MatDialog,
     private profesoresService: ProfesorService,
     private router: Router,
-    private mockapiService: MockapiService,
     // private firebaseService: FirebaseService,
 
     
@@ -147,14 +144,6 @@ export class ListarProfesorComponent implements OnInit {
 
 
 
-async obtenerProfesor() {
-  try {
-    this.profesor = await this.mockapiService.obtenerProfesor();
-    console.error('Profesor recuperado:', this.profesor);
-  } catch (error) {
-    console.error('Error:', error);
-  }
-}
 
 
 

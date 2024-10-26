@@ -16,14 +16,14 @@
           <img src="assets/img/foto.jpg" alt="Foto de perfil" class="profile-image" />
           <div class="profile-details">
             <h2>{{ alumno$.nombre }} {{ alumno$.apellido }}</h2>
-            <p>ID: {{ alumno$.idAlumno }}</p>
+            <!-- <p>ID: {{ alumno$.idAlumno }}</p> -->
           </div>
         </div>
         <div class="profile-info">
           <p><strong>Dirección:</strong> {{ alumno$.direccion }}</p>
           <p><strong>Teléfono:</strong> {{ alumno$.telefono }}</p>
           <p><strong>Correo:</strong> {{ alumno$.correo }}</p>
-          <p><strong>Fecha de Nacimiento:</strong> {{ alumno$.fechaNacimiento | date: 'dd/MM/yyyy' }}</p>
+          <p><strong>Fecha de Nacimiento:</strong> {{ alumno$.fechaNacimiento | date : "dd/MM/yyyy" }}</p>
         </div>
     
         <h3 class="course-title">Cursos Inscriptos:</h3>
