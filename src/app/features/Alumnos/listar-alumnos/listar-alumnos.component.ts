@@ -6,7 +6,6 @@ import { DialogAlumnoComponent } from '../dialog-alumno/dialog-alumno.component'
 import { Router } from '@angular/router';
 import { ConfirmDialogComponent } from '../../../core/components/confirm-dialog/confirm-dialog.component';
 import { AlumnosService } from '../service/alumnos.service';
-import { AuthService } from '../../../auth/auth.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -43,20 +42,19 @@ export class ListarAlumnosComponent {
   constructor(
     private dialog: MatDialog,
     private alumnosService: AlumnosService,
-    private authService: AuthService,
 
     private router: Router
   ) {}
 
   ngOnInit(): void {
     // this.obtenerAlumnos();
-    this.obtenerAlumnosFirebase();
+    this.getUsers();
   }
 
-  obtenerAlumnosFirebase() {
-    this.authService.obtenerAlumnosFirebase().subscribe({
-      next: (data) => {
-        this.dataSource.data = data; // los datos recuperados, se guardan en dataSource
+  getUsers() {
+    this.alumnosService.getUsers().subscribe({
+      next: (alumnosRecuperados) => {
+        this.dataSource.data = alumnosRecuperados; // los datos recuperados, se guardan en dataSource
       },
       error: (error) => {
         console.error('Error al obtener usuarios:', error);
@@ -95,7 +93,10 @@ export class ListarAlumnosComponent {
         };
 
         try {
-          await this.authService.updateUserData(alumno.idAlumno, editarAlumno);
+          await this.alumnosService.updateUserData(
+            alumno.idAlumno,
+            editarAlumno
+          );
           console.log('Alumno editado correctamente', result);
           this.dialog.open(ConfirmDialogComponent, {
             data: {
@@ -130,10 +131,9 @@ export class ListarAlumnosComponent {
         idTipoUsuario: 1, // O el valor que corresponda
       },
     });
-
+  
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        // Aquí usamos el tipo NuevoAlumno
         const nuevoAlumno: NuevoAlumno = {
           nombre: result.nombre,
           apellido: result.apellido,
@@ -145,28 +145,36 @@ export class ListarAlumnosComponent {
           isDeleted: false,
           createdAt: new Date().toISOString(),
         };
-
-        // Llama al servicio para agregar los datos del alumno
-        this.authService
-          .addUser(nuevoAlumno)
+  
+        // Llama al servicio para agregar el usuario
+        this.alumnosService.addUser(nuevoAlumno)
           .then(() => {
-            console.log('Datos guardados correctamente');
+            // Solo se muestra el diálogo de éxito si la operación fue exitosa
+            this.dialog.open(ConfirmDialogComponent, {
+              data: {
+                title: 'Éxito',
+                message: 'El alumno ha sido agregado correctamente.',
+                type: 'info',
+              },
+            });
           })
-          .catch((error: any) => {
-            console.error('Error guardando datos: ', error);
+          .catch((error: Error) => {
+            // Captura y muestra el error
+            console.error('Error guardando datos: ', error.message);
+            this.dialog.open(ConfirmDialogComponent, {
+              data: {
+                title: 'Error',
+                message: error.message,
+                type: 'error',
+              },
+            });
           });
-
-        this.dialog.open(ConfirmDialogComponent, {
-          data: {
-            title: 'Éxito',
-            message: 'El alumno ha sido agregado correctamente.',
-            type: 'info',
-          },
-        });
       }
     });
   }
-
+  
+  
+  
   EliminarAlumno(alumno: Alumno) {
     if (!alumno.idAlumno) {
       console.error('ID del alumno es indefinido');
@@ -184,7 +192,7 @@ export class ListarAlumnosComponent {
     dialogRef.afterClosed().subscribe(async (result) => {
       if (result) {
         try {
-          await this.authService.deleteUser(alumno.idAlumno);
+          await this.alumnosService.deleteUser(alumno.idAlumno);
           console.log('Alumno eliminado correctamente');
           this.dialog.open(ConfirmDialogComponent, {
             data: {

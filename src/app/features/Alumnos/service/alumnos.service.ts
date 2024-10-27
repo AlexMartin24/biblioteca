@@ -1,78 +1,165 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, Observable, of } from 'rxjs';
-import { Alumno } from '../alumno.model';
+import { Observable } from 'rxjs';
+import { Alumno, NuevoAlumno } from '../alumno.model';
+import {
+  collection,
+  doc,
+  Firestore,
+  getDoc,
+  getDocs,
+  onSnapshot,
+  query,
+  setDoc,
+  Timestamp,
+  updateDoc,
+  where,
+} from '@angular/fire/firestore';
+import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
+import firebase, { FirebaseError } from 'firebase/app';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AlumnosService {
-  private listaAlumnos: Alumno[] = [
-    {
-      idAlumno: "1",
-      nombre: 'Juan',
-      apellido: 'Gonzalez',
-      correo: 'juangonzalez@gmail.com',
-      fechaNacimiento: new Date(1993, 11, 17),
-      telefono: '1141123456',
-      direccion: 'Calle Falsa 123',
-      // cursos: [
-      //   {
-      //     idCurso: 1,
-      //     comision: '123-MAÑANA',
-      //     detalle: 'Lunes y Miércoles de 10:00 a 12:00',
-      //     nombreCurso: 'ALED III',
-      //     descripcion: 'Algoritmo y Estructura de Datos III',
-      //     presencial: true,
-      //     fechaInicio: new Date(2022, 11, 17),
-      //     fechaFin: new Date(2023, 11, 17),
-      //     // profesor: {
-      //     //   idProfesor: 1,
-      //     //   nombre: 'Felipe',
-      //     //   apellido: 'Martinez',
-      //     // },
-      //     idProfesor: 1,
-      //     inscripciones: []
-      //   },
-      // ],
-      idTipoUsuario: 1
-    },
-  ];
+  constructor(private auth: Auth, private firestore: Firestore) {}
 
-  private listaAlumnos$: BehaviorSubject<Alumno[]>;
+  getUsers(): Observable<Alumno[]> {
+    // referencia a la colección usuarios
+    const usuariosRef = collection(this.firestore, 'usuarios');
 
-  constructor() {
-    this.listaAlumnos$ = new BehaviorSubject(this.listaAlumnos);
+    // crea un nuevo Observable y suscribirse
+    return new Observable<Alumno[]>((subscriber) => {
+      // crea la consulta para obtener solo los usuarios no eliminados
+      const obtenerUsuariosActivos = query(
+        usuariosRef,
+        where('isDeleted', '==', false)
+      );
+
+      // onSnapshot se usa para detectar los cambios en la colección usuarios
+      const unsubscribe = onSnapshot(
+        obtenerUsuariosActivos,
+        (userSnapshots) => {
+          // mapear el documento a un Array de Alumnos
+          const users: Alumno[] = userSnapshots.docs.map((doc) => {
+            // doc.data() devuelve los datos del documento en forma de objeto.
+            const jsonAlumno = doc.data();
+
+            // Cambia fechaNacimiento de Timestamp a Date
+            if (jsonAlumno['fechaNacimiento'] instanceof Timestamp) {
+              jsonAlumno['fechaNacimiento'] =
+                jsonAlumno['fechaNacimiento'].toDate();
+            }
+
+            return {
+              idAlumno: doc.id,
+              ...jsonAlumno,
+            } as Alumno;
+          });
+          // Emitir los usuarios actualizados
+          subscriber.next(users);
+        },
+        (error) => {
+          // Si ocurre un error en la operación de onSnapshot, se emite un error al subscriber
+          subscriber.error(error);
+        }
+      );
+      // Devolver la función de limpieza al desuscribirse
+      return () => unsubscribe();
+    });
   }
 
-  ObtenerAlumnosObservable(): Observable<Alumno[]> {
-    // console.log("Alumnos recuperados", this.listaAlumnos$.asObservable());
-    return this.listaAlumnos$.asObservable();
-  }
+  async getUser(idUsuario: string): Promise<Alumno | null> {
+    try {
+      const document = doc(this.firestore, `usuarios/${idUsuario}`);
+      const snapshot = await getDoc(document);
+      // console.log('datos del alumno:', snapshot.data());
 
-  ObtenerAlumnoPorId(idAlumno: string): Alumno | undefined {
-    return this.listaAlumnos$.value.find((alumno) => alumno.idAlumno === idAlumno);
-  }
-
-  EliminarAlumno(alumno: Alumno) {
-    let indice = this.listaAlumnos.indexOf(alumno);
-    this.listaAlumnos.splice(indice, 1);
-    this.listaAlumnos$.next(this.listaAlumnos);
-  }
-
-  EditarAlumno(alumno: Alumno): Observable<Alumno> {
-    const indice = this.listaAlumnos.findIndex(
-      (id) => id.idAlumno === alumno.idAlumno
-    );
-    if (indice !== -1) {
-      this.listaAlumnos[indice] = alumno;
-      this.listaAlumnos$.next(this.listaAlumnos);
+      return snapshot.data() as Alumno | null; // Devolver Alumno o null
+    } catch (error) {
+      console.error('No se encontró el usuario', error);
+      return null; // en caso de error, retornar null
     }
-    return of(); // Retorna un Observable vacío
+  }
+  //Recuperar usuarios eliminados
+  async getUsersDeleted() {
+    const querySnapshot = await getDocs(
+      query(
+        collection(this.firestore, 'usuarios'),
+        where('isDeleted', '==', true)
+      )
+    );
+    const users = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    return users;
   }
 
-  AgregarAlumno(nuevoCurso: Alumno) {
-    this.listaAlumnos.push(nuevoCurso);
-    this.listaAlumnos$.next(this.listaAlumnos);
-    return of(); // Retorna un Observable vacío
+  async updateUserData(
+    idUsuario: string,
+    editarAlumno: Partial<Alumno>
+  ): Promise<void> {
+    const userRef = doc(this.firestore, `usuarios/${idUsuario}`);
+    // console.log('ID del alumno:', idUsuario);
+    await updateDoc(userRef, editarAlumno);
+  }
+
+  async deleteUser(uid: string) {
+    const userRef = doc(this.firestore, `usuarios/${uid}`);
+
+    // Asegúrate de que uid es una cadena válida antes de intentar actualizar
+    await updateDoc(userRef, {
+      isDeleted: true,
+      updatedAt: new Date().toISOString(),
+    });
+  }
+
+  async addUser(nuevoAlumno: NuevoAlumno): Promise<void> {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        this.auth,
+        nuevoAlumno.correo,
+        nuevoAlumno.apellido + 'Temporal'
+      );
+
+      const uid = userCredential.user.uid;
+      const userRef = doc(this.firestore, `usuarios/${uid}`);
+
+      await setDoc(userRef, {
+        nombre: nuevoAlumno.nombre,
+        apellido: nuevoAlumno.apellido,
+        correo: nuevoAlumno.correo,
+        fechaNacimiento: nuevoAlumno.fechaNacimiento,
+        telefono: nuevoAlumno.telefono,
+        direccion: nuevoAlumno.direccion,
+        idTipoUsuario: nuevoAlumno.idTipoUsuario,
+        isDeleted: nuevoAlumno.isDeleted,
+        createdAt: new Date().toISOString(),
+      });
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        // Lanza un error con un mensaje para que el componente lo capture
+        throw new Error(this.handleError(error));
+      } else {
+        console.error('Error desconocido:', error);
+        throw new Error('Error desconocido al crear el usuario.');
+      }
+    }
+  }
+
+  //errores de firebase
+  private handleError(error: firebase.FirebaseError): string {
+    switch (error.code) {
+      case 'auth/email-already-in-use':
+        return 'Este correo ya está en uso. Por favor, utiliza otro.';
+      case 'auth/invalid-email':
+        return 'El formato del correo electrónico es inválido.';
+      case 'auth/operation-not-allowed':
+        return 'La operación no está permitida.';
+      case 'auth/weak-password':
+        return 'La contraseña debe tener al menos 6 caracteres.';
+      default:
+        return 'Error al crear el usuario: ' + error.message;
+    }
   }
 }

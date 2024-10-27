@@ -11,6 +11,9 @@ export interface Alumno {
 
   // cursos: Cursos [];
   idTipoUsuario: number;
+  isDeleted: boolean;
+  createdAt: string;
+
 }
 
 
