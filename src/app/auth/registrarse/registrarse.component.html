@@ -24,16 +24,60 @@
           height="100"
         />
 
-        <div class="form-floating">
-          <input
-            type="email"
-            class="form-control"
-            id="user-email"
-            formControlName="email"
+        <mat-form-field appearance="fill">
+          <mat-label>Correo Electrónico</mat-label>
+          <input 
+            matInput 
+            type="email" 
+            formControlName="email" 
             placeholder="email@example.com"
           />
-          <label for="user-email"> Correo Electronico</label>
+          <mat-error *ngIf="registerUser.controls['email'].hasError('required') && registerUser.controls['email'].dirty">
+            El campo es requerido
+          </mat-error>
+          <mat-error *ngIf="registerUser.controls['email'].hasError('pattern') && registerUser.controls['email'].dirty">
+            Mail no valido.
+          </mat-error>
+          <mat-error *ngIf="registerUser.controls['email'].hasError('maxlength') && registerUser.controls['email'].dirty">
+            Superaste los caracteres disponibles.
+          </mat-error>        
+          <!-- <mat-hint *ngIf="registerUser.controls['email'].valid && registerUser.controls['email'].dirty">
+            Correcto!
+          </mat-hint> -->
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Contraseña</mat-label>
+          <input 
+            matInput 
+            type="password" 
+            formControlName="password" 
+            placeholder="Escriba su contraseña"
+            (input)="validatePassword()"
+          />
+        </mat-form-field>
+        
+        <div class="password-requirements">
+          <p>Tu contraseña debe cumplir con los siguientes requisitos:</p>
+          <ul>
+            <li [ngClass]="{'valid': hasLowercase, 'invalid': !hasLowercase}">
+              Contener al menos una letra minúscula
+            </li>
+            <li [ngClass]="{'valid': hasUppercase, 'invalid': !hasUppercase}">
+              Contener al menos una letra mayúscula
+            </li>
+            <li [ngClass]="{'valid': hasNumber, 'invalid': !hasNumber}">
+              Contener al menos un número
+            </li>
+            <li [ngClass]="{'valid': isLengthValid, 'invalid': !isLengthValid}">
+              Tener un mínimo de 6 caracteres
+            </li>
+          </ul>
         </div>
+        
+        
+
+<!-- 
         <div class="form-floating">
           <input
             type="password"
@@ -43,7 +87,7 @@
             formControlName="password"
           />
           <label for="floatingPassword"> Contraseña</label>
-        </div>
+        </div> -->
 
         <div class="checkbox mb-3"></div>
         <button class="w-100 btn btn-lg btn-primary" type="submit">

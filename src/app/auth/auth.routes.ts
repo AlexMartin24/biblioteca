@@ -15,7 +15,7 @@ export const AUTH_ROUTES: Routes = [
     path: 'registrarse',
     component: RegistrarseComponent,
     children: [
-      { path: 'form', component: FormComponent } // Ruta para el formulario
+      { path: 'form', component: FormComponent }
     ]
   }
 ];

@@ -18,8 +18,10 @@ import {
   templateUrl: './dialog-alumno.component.html',
   styleUrls: ['./dialog-alumno.component.css'],
 })
+
 export class DialogAlumnoComponent {
   formularioEditar: FormGroup;
+
 
   constructor(
     private dialogRef: MatDialogRef<DialogAlumnoComponent>,
@@ -53,10 +55,11 @@ export class DialogAlumnoComponent {
   aceptar() {
     if (this.formularioEditar.valid) {
       const formData = this.formularioEditar.value;
+      console.log('Datos del formulario:', formData);
       this.dialogRef.close({
         ...formData,
+        idAlumno: this.data.idAlumno,
       });
-      console.log('Form completado:', formData);
     } else {
       this.formularioEditar.markAllAsTouched();
     }

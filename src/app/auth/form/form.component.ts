@@ -57,7 +57,7 @@ export class FormComponent {
     }
 
     // Obtiene los datos de los formularios
-    const alumnoData = {
+    const nuevoAlumno = {
       ...this.alumnoForm.value,
       ...this.alumnoSecondForm.value,
     };
@@ -75,7 +75,7 @@ export class FormComponent {
     console.error('Usuario autenticado.', userId);
 
     // Llama al servicio para agregar los datos del alumno
-    this.authService.addUserData(userId, alumnoData)
+    this.authService.addUserData(userId, nuevoAlumno)
       .then(() => {
         console.log('Datos guardados correctamente');
         // Aquí podrías navegar a otra ruta si es necesario

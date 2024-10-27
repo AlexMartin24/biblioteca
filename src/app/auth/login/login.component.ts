@@ -30,7 +30,7 @@ export class LoginComponent {
     this.loginService
       .login(this.loginUser.value)
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         this.router.navigate(['/cursos']);
       })
       .catch((error) => console.log(error));

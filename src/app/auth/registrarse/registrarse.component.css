@@ -105,3 +105,14 @@ hr.dropdown-divider {
     font-size: 1.5rem;
   }
 }
+.password-requirements {
+  margin-top: 10px;
+}
+
+.valid {
+  color: green;
+}
+
+.invalid {
+  color: red;
+}
