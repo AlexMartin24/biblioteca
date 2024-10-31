@@ -1,104 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="" />
-    <meta
-      name="author"
-      content="Mark Otto, Jacob Thornton, and Bootstrap contributors"
-    />
-    <meta name="generator" content="Hugo 0.88.1" />
-    <title>Signin Template · Bootstrap v5.1</title>
 
-    <!-- Custom styles for this template -->
-  </head>
-  <body class="text-center">
-    <main class="form-signin">
-      <form [formGroup]="registerUser" (ngSubmit)="onSubmit()" class="row">
-        <img
-          class="mb-4"
-          src="https://avellaneda.ibeltran.com.ar/img/logo/logo.png"
-          alt=""
-          width="100"
-          height="100"
-        />
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="" />
+</head>
 
-        <mat-form-field appearance="fill">
-          <mat-label>Correo Electrónico</mat-label>
-          <input 
-            matInput 
-            type="email" 
-            formControlName="email" 
-            placeholder="email@example.com"
-          />
-          <mat-error *ngIf="registerUser.controls['email'].hasError('required') && registerUser.controls['email'].dirty">
-            El campo es requerido
-          </mat-error>
-          <mat-error *ngIf="registerUser.controls['email'].hasError('pattern') && registerUser.controls['email'].dirty">
-            Mail no valido.
-          </mat-error>
-          <mat-error *ngIf="registerUser.controls['email'].hasError('maxlength') && registerUser.controls['email'].dirty">
-            Superaste los caracteres disponibles.
-          </mat-error>        
-          <!-- <mat-hint *ngIf="registerUser.controls['email'].valid && registerUser.controls['email'].dirty">
-            Correcto!
-          </mat-hint> -->
-        </mat-form-field>
+<body class="text-center">
+  <main class="form-signin">
+    <form [formGroup]="formUsuario" (ngSubmit)="registrarUsuario()" class="row">
+      <img class="mb-4" src="https://avellaneda.ibeltran.com.ar/img/logo/logo.png" alt="" width="100" height="100" />
 
-        <mat-form-field appearance="fill">
-          <mat-label>Contraseña</mat-label>
-          <input 
-            matInput 
-            type="password" 
-            formControlName="password" 
-            placeholder="Escriba su contraseña"
-            (input)="validatePassword()"
-          />
-        </mat-form-field>
-        
-        <div class="password-requirements">
-          <p>Tu contraseña debe cumplir con los siguientes requisitos:</p>
-          <ul>
-            <li [ngClass]="{'valid': hasLowercase, 'invalid': !hasLowercase}">
-              Contener al menos una letra minúscula
-            </li>
-            <li [ngClass]="{'valid': hasUppercase, 'invalid': !hasUppercase}">
-              Contener al menos una letra mayúscula
-            </li>
-            <li [ngClass]="{'valid': hasNumber, 'invalid': !hasNumber}">
-              Contener al menos un número
-            </li>
-            <li [ngClass]="{'valid': isLengthValid, 'invalid': !isLengthValid}">
-              Tener un mínimo de 6 caracteres
-            </li>
-          </ul>
-        </div>
-        
-        
+      <mat-form-field appearance="fill">
+        <mat-label>Correo Electrónico</mat-label>
+        <input matInput type="email" formControlName="email" placeholder="email@example.com" />
+        <mat-error *ngIf="formUsuario.controls['email'].hasError('required') && formUsuario.controls['email'].dirty">
+          El campo es requerido
+        </mat-error>
+        <mat-error *ngIf="formUsuario.controls['email'].hasError('pattern') && formUsuario.controls['email'].dirty">
+          Mail no valido.
+        </mat-error>
+        <mat-error *ngIf="formUsuario.controls['email'].hasError('maxlength') && formUsuario.controls['email'].dirty">
+          Superaste los caracteres disponibles.
+        </mat-error>
+      </mat-form-field>
 
-<!-- 
-        <div class="form-floating">
-          <input
-            type="password"
-            class="form-control"
-            id="floatingPassword"
-            placeholder="Password"
-            formControlName="password"
-          />
-          <label for="floatingPassword"> Contraseña</label>
-        </div> -->
+      <mat-form-field appearance="fill">
+        <mat-label>Contraseña</mat-label>
+        <input matInput type="password" formControlName="password" placeholder="Escriba su contraseña"
+          (input)="validarContasena()" />
+      </mat-form-field>
 
-        <div class="checkbox mb-3"></div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">
-          Registrarse
-        </button>
+      <div class="requisitosContasena">
+        <p>Tu contraseña debe cumplir con los siguientes requisitos:</p>
+        <ul>
+          <li [ngClass]="{'valido': letraMinuscula, 'invalido': !letraMinuscula}">
+            Contener al menos una letra minúscula
+          </li>
+          <li [ngClass]="{'valido': letraMayuscula, 'invalido': !letraMayuscula}">
+            Contener al menos una letra mayúscula
+          </li>
+          <li [ngClass]="{'valido': numero, 'invalido': !numero}">
+            Contener al menos un número
+          </li>
+          <li [ngClass]="{'valido': minimoCaracteres, 'invalido': !minimoCaracteres}">
+            Tener un mínimo de 6 caracteres
+          </li>
+        </ul>
+      </div>
 
-        <hr class="dropdown-divider" />
-        <br />
+      <button class="w-100 btn btn-lg btn-primary" type="submit">
+        Registrarse
+      </button>
 
-        <p class="mt-5 mb-3 text-muted">&copy; 2017–2024</p>
-      </form>
-    </main>
-  </body>
+      <hr class="dropdown-divider" />
+      <br />
+
+      <p class="mt-5 mb-3 text-muted">&copy; 2017–2024</p>
+    </form>
+  </main>
+</body>
+
 </html>

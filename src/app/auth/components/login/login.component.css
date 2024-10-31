@@ -1,13 +1,25 @@
 /* Estilos personalizados para el formulario de inicio de sesión */
 body {
-  background: linear-gradient(135deg, #2c3e50, #3498db);
   font-family: 'Helvetica Neue', Arial, sans-serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+
   margin: 0;
 }
+
+
+.medidas-dialog {
+  max-height: 90vh; /* Para que no exceda el 90% de la altura de la ventana */
+  max-width: 50vw; /* Para que no exceda el 90% de la ancho de la ventana */
+
+  overflow-y: auto; /* Permitir desplazamiento si es necesario */
+}
+
+@media (max-width: 600px) {
+  .medidas-dialog {
+    width: 90%; /* Ampliar en pantallas más pequeñas */
+  }
+}
+
+
 
 .form-signin {
   background: #ffffff;
@@ -22,7 +34,6 @@ body {
 .form-signin img {
   display: block;
   margin: 0 auto 1.5rem;
-
 }
 
 .form-signin h1 {
@@ -48,13 +59,6 @@ body {
   box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
 }
 
-.checkbox {
-  font-size: 0.875rem;
-  color: #666;
-  display: flex;
-  align-items: center;
-}
-
 button[type="submit"] {
   background: #3498db;
   border: none;
@@ -69,31 +73,10 @@ button[type="submit"]:hover {
   background: #2980b9;
 }
 
-.btn-light {
-  background: #f8f9fa;
-  color: #2c3e50;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 0.5rem 1rem;
-  margin-top: 0.5rem;
-  width: 100%;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.btn-light:hover {
-  background: #e2e6ea;
-  color: #2c3e50;
-}
-
 .text-muted {
-  color: #999 !important;
+  color: #999;
   text-align: center;
   font-size: 0.875rem;
-}
-
-hr.dropdown-divider {
-  border-top: 1px solid #ddd;
-  margin: 1.5rem 0;
 }
 
 @media (max-width: 576px) {
@@ -104,15 +87,29 @@ hr.dropdown-divider {
   .form-signin h1 {
     font-size: 1.5rem;
   }
-}
-.requisitosContasena {
-  margin-top: 10px;
+  
 }
 
-.valido {
-  color: green;
+
+.google-button {
+  background-color: #ffffff;
+  color: #4285F4;
+  border: 1px solid #4285F4;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.3s;
 }
 
-.invalido {
-  color: red;
+.google-button:hover {
+  background-color: #f1f1f1;
+}
+
+.google-logo {
+  width: 60px;
+  height: 60px;
+  margin-right: 8px;
 }

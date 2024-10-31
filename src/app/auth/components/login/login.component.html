@@ -1,0 +1,37 @@
+<div mat-dialog-content class="medidas-dialog">
+
+  <body class="text-center">
+    <main class="form-signin">
+      <img class="mb-4" src="https://avellaneda.ibeltran.com.ar/img/logo/logo.png" alt="Logo" />
+      <h1 mat-dialog-title>Iniciar Sesión</h1>
+
+      <form [formGroup]="loginUser" class="input-group-sm mb-4" (ngSubmit)="enviarForm()">
+
+        <div class="form-floating mb-4">
+          <input type="email" class="form-control" id="user-email" formControlName="email"
+            placeholder="email@example.com" />
+          <label for="user-email"> Correo Electronico</label>
+        </div>
+        <div class="form-floating mb-4">
+          <input type="password" class="form-control" id="floatingPassword" placeholder="Password"
+            formControlName="password" />
+          <label for="floatingPassword"> Contraseña</label>
+        </div>
+
+
+        <button class="w-100 btn btn-lg btn-primary" type="submit">
+          Ingresar
+        </button>
+
+        <hr class="dropdown-divider" />
+
+        <button class="google-button" (click)="loginGoogle()">
+          Ingresar sesión con Google
+          <img src="assets/img/logo-google.png" alt="Google logo" class="google-logo">
+        </button>
+
+      </form>
+    </main>
+  </body>
+
+</div>

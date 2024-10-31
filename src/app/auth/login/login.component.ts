@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../service/auth.service';
 import { SharedModule } from '../../shared/shared.module';
 
 @Component({
@@ -35,6 +35,7 @@ export class LoginComponent {
       })
       .catch((error) => console.log(error));
   }
+
 
   register() {
     this.router.navigate(['/auth/registrarse']);

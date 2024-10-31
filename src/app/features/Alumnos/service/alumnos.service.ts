@@ -114,6 +114,14 @@ export class AlumnosService {
     });
   }
 
+//   async deleteUser(userId: string) {
+//     const userRef = doc(this.firestore, `usuarios/${userId}`);
+
+//     // Actualiza isDeleted a true
+//     return setDoc(userRef, { isDeleted: true }, { merge: true });
+// }
+
+
   async addUser(nuevoAlumno: NuevoAlumno): Promise<void> {
     try {
       const userCredential = await createUserWithEmailAndPassword(

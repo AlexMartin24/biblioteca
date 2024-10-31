@@ -1,17 +1,25 @@
 
-export interface Usuario {
-    id: string;
+export interface UserCredentials  {
+    email: string;
+    password: string;
+}
+
+export interface User {
+    userId: string,
     nombre: string;
     apellido: string;
-    email: string;
-    tipo: string;
+    tipoUsuario: 'ALUMNO' | 'PROFESOR' | 'ADMINISTRADOR';
 
-    additionalData?: {
-        fechaNacimiento: Date;
-        telefono: string;
-        direccion: string;
-        nacionalidad: string;
-    }
+
+    direccion: string;
+    fechaNacimiento: Date;
+    telefono: string;
+    isDeleted: boolean;
+    createdAt: string;
+  
+
 }
+
+
 
 

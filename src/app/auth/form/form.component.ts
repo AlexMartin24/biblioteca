@@ -1,91 +1,108 @@
-import { Component, inject } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { Alumno } from '../../features/Alumnos/alumno.model';
-import { AuthService } from '../auth.service';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { AuthService } from '../service/auth.service';
 import { SharedModule } from '../../shared/shared.module';
 import { MatDividerModule } from '@angular/material/divider';
 import { Router } from '@angular/router';
+import { regexNumeros, regexTextos } from '../../shared/pattern/patterns';
+import { User } from '../usuario.model';
 
 @Component({
   selector: 'app-form',
   standalone: true,
   imports: [SharedModule, MatDividerModule],
   templateUrl: './form.component.html',
-  styleUrl: './form.component.css'
+  styleUrls: ['./form.component.css'],
 })
-export class FormComponent {
-
-  private _formBuilder = inject(FormBuilder);
-
-
-  // Formulario para los datos personales
-  alumnoForm: FormGroup;
-
-  // Formulario para los datos complementarios
-  alumnoSecondForm: FormGroup;
-
+export class FormComponent implements OnInit {
+  primerFormUsuario: FormGroup;
+  segundoFormUsuario: FormGroup;
   isLinear = true;
 
-  constructor(private authService: AuthService, private router: Router,) {
-    // Formulario de Datos Personales
-    this.alumnoForm = this._formBuilder.group({
-      nombre: ['', Validators.required],
-      apellido: ['', Validators.required],
-      // correo: ['', [Validators.required, Validators.email]],
-      idTipoUsuario: ['', Validators.required],
-
+  constructor(private authService: AuthService, private router: Router) {
+    this.primerFormUsuario = new FormGroup({
+      nombre: new FormControl('', [
+        Validators.required,
+        Validators.pattern(regexTextos),
+        Validators.maxLength(30),
+      ]),
+      apellido: new FormControl('', [
+        Validators.required,
+        Validators.pattern(regexTextos),
+        Validators.maxLength(30),
+      ]),
+      tipoUsuario: new FormControl('', [
+        Validators.required,
+        Validators.pattern(regexTextos),
+        Validators.maxLength(13),
+      ]),
     });
 
-    // Formulario de Datos Complementarios
-    this.alumnoSecondForm = this._formBuilder.group({
-      direccion: [''],
-      fechaNacimiento: new FormControl('',),
-      cursos: [''],
-      telefono: [''],
+    this.segundoFormUsuario = new FormGroup({
+      direccion: new FormControl('', [
+        Validators.maxLength(50),
+      ]),
+      fechaNacimiento: new FormControl(''),
+      telefono: new FormControl('', [
+        Validators.pattern(regexNumeros),
+        Validators.maxLength(15),
+      ]),
     });
   }
 
+  ngOnInit() {
+    this.cargarDatosUsuario();
+  }
 
-  onSubmit() {
-    console.log(this.alumnoForm);
-    console.log(this.alumnoSecondForm);
+  async cargarDatosUsuario() {
+    const userId = this.authService.obtenerIDUsuario();
+    if (userId) {
+      try {
+        const userData = await this.authService.obtenerDatosUsuario(userId);
+        if (userData) {
+          this.primerFormUsuario.patchValue({
+            nombre: userData.nombre,
+            apellido: userData.apellido,
+            tipoUsuario: userData.tipoUsuario,
+          });
 
-    // Verifica si el formulario es inválido
-    if (this.alumnoForm.invalid || this.alumnoSecondForm.invalid) {
-      console.error('Formulario inválido');
-      return;  // Si alguno de los formularios es inválido, no se envía
+          this.segundoFormUsuario.patchValue({
+            direccion: userData.direccion,
+            fechaNacimiento: userData.fechaNacimiento,
+            telefono: userData.telefono,
+          });
+        }
+      } catch (error) {
+        console.error('Error al cargar los datos del usuario:', error);
+      }
     }
+  }
 
-    // Obtiene los datos de los formularios
-    const nuevoAlumno = {
-      ...this.alumnoForm.value,
-      ...this.alumnoSecondForm.value,
-    };
-
-    // Obtiene el ID del usuario actual
-    const userId = this.authService.getCurrentUserId();
-
-    // Verifica si hay un usuario autenticado    
-    if (!userId) {
-      console.error('No hay usuario autenticado.');
+  enviarForm() {
+    if (this.primerFormUsuario.invalid || this.segundoFormUsuario.invalid) {
+      console.error('Formulario inválido');
       return;
     }
 
-    // Si hay un usuario autenticado, se continúa
-    console.error('Usuario autenticado.', userId);
+    const nuevoUsuario = {
+      ...this.primerFormUsuario.value,
+      ...this.segundoFormUsuario.value,
+    };
 
-    // Llama al servicio para agregar los datos del alumno
-    this.authService.addUserData(userId, nuevoAlumno)
+    const userId = this.authService.obtenerIDUsuario();
+    if (!userId) {
+      console.error('No hay usuario autenticado. Iniciar sesión');
+      this.router.navigate(['/auth/iniciar-sesion/']);
+      return;
+    }
+
+    this.authService.agregarDatosUsuario(userId, nuevoUsuario)
       .then(() => {
         console.log('Datos guardados correctamente');
-        // Aquí podrías navegar a otra ruta si es necesario
         this.router.navigate(['/cursos/']);
-
       })
-      .catch((error: any) => {
-        console.error('Error guardando datos: ', error); // Maneja el error si ocurre
+      .catch((error) => {
+        console.error('Error guardando datos: ', error);
       });
   }
 }
-
-

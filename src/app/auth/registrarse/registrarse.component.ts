@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../service/auth.service';
 import { regexMail, regexPassword } from '../../shared/pattern/patterns';
 
 @Component({
@@ -13,14 +13,14 @@ import { regexMail, regexPassword } from '../../shared/pattern/patterns';
   styleUrl: './registrarse.component.css',
 })
 export class RegistrarseComponent {
-  registerUser!: FormGroup;
+  formUsuario!: FormGroup;
 
   constructor(private authService: AuthService, private router: Router) {
-    this.registerUser = new FormGroup({
+    this.formUsuario = new FormGroup({
       email: new FormControl('', [
         Validators.required,
         Validators.pattern(regexMail),
-        Validators.maxLength(30), // Limitar los caracteres
+        Validators.maxLength(30),
       ]),
       password: new FormControl('', [
         Validators.required,
@@ -32,30 +32,28 @@ export class RegistrarseComponent {
   }
 
   //validar contaseñas
-  hasLowercase: boolean = false;
-  hasUppercase: boolean = false;
-  hasNumber: boolean = false;
-  isLengthValid: boolean = false;
+  letraMinuscula: boolean = false;
+  letraMayuscula: boolean = false;
+  numero: boolean = false;
+  minimoCaracteres: boolean = false;
 
-  validatePassword() {
-    const password = this.registerUser.controls['password'].value;
-    this.hasLowercase = /[a-z]/.test(password);
-    this.hasUppercase = /[A-Z]/.test(password);
-    this.hasNumber = /[0-9]/.test(password);
-    this.isLengthValid = password.length >= 6;
+  validarContasena() {
+    const password = this.formUsuario.controls['password'].value;
+    this.letraMinuscula = /[a-z]/.test(password);
+    this.letraMayuscula = /[A-Z]/.test(password);
+    this.numero = /[0-9]/.test(password);
+    this.minimoCaracteres = password.length >= 6;
   }
-  //
 
-  async onSubmit() {
-    if (this.registerUser.invalid) {
-      // Maneja la lógica si el formulario no es válido
-      console.log('Formulario no válido', this.registerUser.errors);
-      return; // Detener la ejecución aquí
+  async registrarUsuario() {
+    if (this.formUsuario.invalid) {
+      console.log('Formulario no válido', this.formUsuario.errors);
+      return;
     }
 
     try {
-      await this.authService.register(this.registerUser.value);
-      // console.log(this.registerUser.value);
+      await this.authService.registrarUsuario(this.formUsuario.value);
+      // console.log(this.formUsuario.value);
       this.router.navigate(['/form']);
     } catch (error) {
       console.log(error);

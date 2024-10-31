@@ -11,8 +11,8 @@ export const regexTextos: string = '^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ.\\- ]{1
 // pattern texto y numeros
 export const regexDireccion: string = '^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9.\\- ]{1,50}$';
 
-// pattern solo numero
-export const regexNumeros: string = '^[0-9]{10}$';
+// pattern solo numero. Limite entre 7 y 15 caracteres y opcionalmente un +.
+export const regexNumeros: string = '^\\+?[0-9]{7,15}$';
 
 // pattern contraseña. Debe contener al menos una letra minúscula, una mayúscula, un número, un carácter especial, al menos 12 caracteres
 export const regexContraseña: string = '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};:"\\\'<>?,.\\/]).{12,}$';

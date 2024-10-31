@@ -3,7 +3,7 @@ import { SharedModule } from '../../../shared/shared.module';
 import { Alumno } from '../alumno.model';
 import { ActivatedRoute } from '@angular/router';
 import { AlumnosService } from '../service/alumnos.service';
-import { AuthService } from '../../../auth/auth.service';
+import { AuthService } from '../../../auth/service/auth.service';
 import { Timestamp } from 'firebase/firestore';
 
 @Component({

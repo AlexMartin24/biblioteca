@@ -78,6 +78,7 @@ export class ListarAlumnosComponent {
     }
 
     const dialogRef = this.dialog.open(DialogAlumnoComponent, {
+      disableClose: true,
       data: alumno,
     });
 
