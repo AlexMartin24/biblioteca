@@ -95,6 +95,22 @@ export class AuthService {
     }
   }
 
+  // async obtenerUsuariosEliminados(userId: string): Promise<User | null> {
+  //   const userRef = doc(this.firestore, `usuarios/${userId}`);
+  //   const docSnap = await getDoc(userRef);
+  //   if (docSnap.exists()) {
+  //     if (userRef.isDeleted = false){
+      
+  //       return docSnap.data() as User;
+
+  //   }
+  //   return docSnap.data() as User;
+  //   }
+  //   else {
+  //     return null;
+  //   }
+  // }
+
 
   async agregarDatosUsuario(userId: string, userData: User) {
     const userRef = doc(this.firestore, `usuarios/${userId}`);
@@ -113,9 +129,9 @@ export class AuthService {
     if (!docSnap.exists()) {
       // Guardar datos básicos en Firestore
       await setDoc(userRef, {
-        email: user.email,
+        correo: user.email,
         nombre: user.displayName!.split(' ')[0], // Nombre
-        apellido: user.displayName!.split(' ')[1] || '', // Apellido
+        apellido: user.displayName!.split(' ')[2] || '', // Apellido
         photoURL: user.photoURL || '', // URL de la foto de perfil
         isDeleted: false,
         createdAt: new Date().toISOString(),

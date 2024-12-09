@@ -13,7 +13,9 @@
   
       <div *ngIf="alumno$" class="profile-card">
         <div class="profile-header">
-          <img src="assets/img/foto.jpg" alt="Foto de perfil" class="profile-image" />
+          <!-- <img src="assets/img/foto.jpg" alt="Foto de perfil" class="profile-image" /> -->
+          <img src="{{ alumno$.photoURL }}" alt="Foto de perfil" class="profile-image" />
+
           <div class="profile-details">
             <h2>{{ alumno$.nombre }} {{ alumno$.apellido }}</h2>
             <!-- <p>ID: {{ alumno$.idAlumno }}</p> -->

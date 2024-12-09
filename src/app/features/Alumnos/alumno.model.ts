@@ -14,6 +14,8 @@ export interface Alumno {
   isDeleted: boolean;
   createdAt: string;
 
+  photoURL?: string;
+
 }
 
 
@@ -27,5 +29,8 @@ export interface NuevoAlumno {
   idTipoUsuario: number;
   isDeleted: boolean;
   createdAt: string;
+
+  photoURL?: string;
+
 
 }

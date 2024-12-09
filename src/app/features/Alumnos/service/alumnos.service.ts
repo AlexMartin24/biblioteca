@@ -23,7 +23,7 @@ import firebase, { FirebaseError } from 'firebase/app';
 export class AlumnosService {
   constructor(private auth: Auth, private firestore: Firestore) {}
 
-  getUsers(): Observable<Alumno[]> {
+  obtenerAlumnosActivos(): Observable<Alumno[]> {
     // referencia a la colección usuarios
     const usuariosRef = collection(this.firestore, 'usuarios');
 
@@ -67,6 +67,52 @@ export class AlumnosService {
       return () => unsubscribe();
     });
   }
+
+  obtenerAlumnosEliminados(): Observable<Alumno[]> {
+    // referencia a la colección usuarios
+    const usuariosRef = collection(this.firestore, 'usuarios');
+
+    // crea un nuevo Observable y suscribirse
+    return new Observable<Alumno[]>((subscriber) => {
+      // crea la consulta para obtener solo los usuarios no eliminados
+      const obtenerUsuariosActivos = query(
+        usuariosRef,
+        where('isDeleted', '==', true)
+      );
+
+      // onSnapshot se usa para detectar los cambios en la colección usuarios
+      const unsubscribe = onSnapshot(
+        obtenerUsuariosActivos,
+        (userSnapshots) => {
+          // mapear el documento a un Array de Alumnos
+          const users: Alumno[] = userSnapshots.docs.map((doc) => {
+            // doc.data() devuelve los datos del documento en forma de objeto.
+            const jsonAlumno = doc.data();
+
+            // Cambia fechaNacimiento de Timestamp a Date
+            if (jsonAlumno['fechaNacimiento'] instanceof Timestamp) {
+              jsonAlumno['fechaNacimiento'] =
+                jsonAlumno['fechaNacimiento'].toDate();
+            }
+
+            return {
+              idAlumno: doc.id,
+              ...jsonAlumno,
+            } as Alumno;
+          });
+          // Emitir los usuarios actualizados
+          subscriber.next(users);
+        },
+        (error) => {
+          // Si ocurre un error en la operación de onSnapshot, se emite un error al subscriber
+          subscriber.error(error);
+        }
+      );
+      // Devolver la función de limpieza al desuscribirse
+      return () => unsubscribe();
+    });
+  }
+
 
   async getUser(idUsuario: string): Promise<Alumno | null> {
     try {

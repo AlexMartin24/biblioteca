@@ -17,7 +17,6 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrl: './listar-alumnos.component.css',
 })
 export class ListarAlumnosComponent {
-  // alumnos$!: Observable<Alumno[]>;
   alumnos$!: Alumno[];
   displayedColumns: string[] = [
     'Nombre',
@@ -28,11 +27,13 @@ export class ListarAlumnosComponent {
     'Acciones',
   ];
 
-  // MatTableDataSource maneja y administra los datos que se mostrarán en una tabla  Andegular Material
+  // DataSource de los alumnos
   dataSource = new MatTableDataSource<Alumno>();
 
+  // Control para mostrar tabla de eliminados
+  showDeletedTable: boolean = false;
+
   // @ViewChild(MatPaginator) permite acceder al componente MatPaginator en tu plantilla
-  // paginator: variable que se usará para almacenar la referencia al MatPaginator
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngAfterViewInit() {
@@ -42,25 +43,53 @@ export class ListarAlumnosComponent {
   constructor(
     private dialog: MatDialog,
     private alumnosService: AlumnosService,
-
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    // this.obtenerAlumnos();
-    this.getUsers();
+    this.obtenerAlumnosActivos();
   }
 
-  getUsers() {
-    this.alumnosService.getUsers().subscribe({
+  // Obtener alumnos normales
+  obtenerAlumnosActivos() {
+    this.alumnosService.obtenerAlumnosActivos().subscribe({
       next: (alumnosRecuperados) => {
-        this.dataSource.data = alumnosRecuperados; // los datos recuperados, se guardan en dataSource
+        this.dataSource.data = alumnosRecuperados;  // Los datos recuperados se guardan en dataSource
+        console.log('Usuarios:', alumnosRecuperados);
       },
       error: (error) => {
         console.error('Error al obtener usuarios:', error);
       },
     });
   }
+
+  obtenerAlumnosEliminados() {
+    this.alumnosService.obtenerAlumnosEliminados().subscribe({
+      next: (alumnosEliminados) => {
+        this.dataSource.data = alumnosEliminados;  // Los datos recuperados se guardan en dataSource
+        console.log('Alumnos Eliminados:', alumnosEliminados);
+      },
+      error: (error) => {
+        console.error('Error al obtener alumnos eliminados:', error);
+      },
+    });
+  }
+
+  // Función para mostrar alumnos activos o eliminados
+  mostrarTablaAlumnos() {
+    if (this.showDeletedTable) {
+      // Si la tabla de eliminados ya está activa, mostramos los alumnos activos
+      this.obtenerAlumnosActivos(); // Cargar alumnos activos
+    } else {
+      // Si no está activa, mostramos los alumnos eliminados
+      this.obtenerAlumnosEliminados(); // Cargar alumnos eliminados
+    }
+    // Cambiar el valor de showDeletedTable para alternar entre activos y eliminados
+    this.showDeletedTable = !this.showDeletedTable;
+  }
+
+
+
 
   EditarAlumno(alumno: Alumno) {
     // console.log('ID del alumno:', alumno.idAlumno); //  ID del alumno
@@ -132,7 +161,7 @@ export class ListarAlumnosComponent {
         idTipoUsuario: 1, // O el valor que corresponda
       },
     });
-  
+
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         const nuevoAlumno: NuevoAlumno = {
@@ -146,7 +175,7 @@ export class ListarAlumnosComponent {
           isDeleted: false,
           createdAt: new Date().toISOString(),
         };
-  
+
         // Llama al servicio para agregar el usuario
         this.alumnosService.addUser(nuevoAlumno)
           .then(() => {
@@ -173,9 +202,9 @@ export class ListarAlumnosComponent {
       }
     });
   }
-  
-  
-  
+
+
+
   EliminarAlumno(alumno: Alumno) {
     if (!alumno.idAlumno) {
       console.error('ID del alumno es indefinido');

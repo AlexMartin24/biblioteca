@@ -12,12 +12,12 @@
             placeholder="email@example.com" />
           <label for="user-email"> Correo Electronico</label>
         </div>
+
         <div class="form-floating mb-4">
           <input type="password" class="form-control" id="floatingPassword" placeholder="Password"
             formControlName="password" />
           <label for="floatingPassword"> Contraseña</label>
         </div>
-
 
         <button class="w-100 btn btn-lg btn-primary" type="submit">
           Ingresar
@@ -26,7 +26,7 @@
         <hr class="dropdown-divider" />
 
         <button class="google-button" (click)="loginGoogle()">
-          Ingresar sesión con Google
+          Ingresar con Google
           <img src="assets/img/logo-google.png" alt="Google logo" class="google-logo">
         </button>
 
