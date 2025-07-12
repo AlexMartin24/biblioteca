@@ -8,6 +8,7 @@ import { CursoComponent } from './features/Cursos/curso/curso.component';
 import { LoginComponent } from './auth/login/login.component';
 import { FormComponent } from './auth/form/form.component';
 import { IndexComponent } from './core/components/index/index.component';
+import { ListUserComponent } from './features/Users/list-user/list-user.component';
 
 export const routes: Routes = [
   { path: 'profesores', component: ListarProfesorComponent },
@@ -23,7 +24,9 @@ export const routes: Routes = [
   { path: 'form', component: FormComponent },
 
 
-  { path: '', component: IndexComponent },
+  // { path: '', component: IndexComponent },
+    { path: '', component: ListUserComponent },
+
 
   {
     path: 'auth',
