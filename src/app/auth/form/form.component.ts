@@ -21,17 +21,17 @@ export class FormComponent implements OnInit {
 
   constructor(private authService: AuthService, private router: Router) {
     this.primerFormUsuario = new FormGroup({
-      nombre: new FormControl('', [
+      name: new FormControl('', [
         Validators.required,
         Validators.pattern(regexTextos),
         Validators.maxLength(30),
       ]),
-      apellido: new FormControl('', [
+      lastname: new FormControl('', [
         Validators.required,
         Validators.pattern(regexTextos),
         Validators.maxLength(30),
       ]),
-      tipoUsuario: new FormControl('', [
+      role: new FormControl('', [
         Validators.required,
         Validators.pattern(regexTextos),
         Validators.maxLength(13),
@@ -39,11 +39,11 @@ export class FormComponent implements OnInit {
     });
 
     this.segundoFormUsuario = new FormGroup({
-      direccion: new FormControl('', [
+      address: new FormControl('', [
         Validators.maxLength(50),
       ]),
-      fechaNacimiento: new FormControl(''),
-      telefono: new FormControl('', [
+      birthdate: new FormControl(''),
+      phone: new FormControl('', [
         Validators.pattern(regexNumeros),
         Validators.maxLength(15),
       ]),
@@ -61,15 +61,15 @@ export class FormComponent implements OnInit {
         const userData = await this.authService.obtenerDatosUsuario(userId);
         if (userData) {
           this.primerFormUsuario.patchValue({
-            nombre: userData.nombre,
-            apellido: userData.apellido,
-            tipoUsuario: userData.tipoUsuario,
+            name: userData.name,
+            lastname: userData.lastname,
+            role: userData.role,
           });
 
           this.segundoFormUsuario.patchValue({
-            direccion: userData.direccion,
-            fechaNacimiento: userData.fechaNacimiento,
-            telefono: userData.telefono,
+            address: userData.address,
+            birthdate: userData.birthdate,
+            phone: userData.phone,
           });
         }
       } catch (error) {

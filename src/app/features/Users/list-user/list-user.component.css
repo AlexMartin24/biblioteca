@@ -29,11 +29,11 @@ body {
   padding-right: 1%;
 }
 
-.btnEditYElim {
+.btnActions{
   margin: 7px;
 }
 
-.btnDetalle {
+.btnStatus {
   display: inline-block;
   /* Mantiene el comportamiento como botón */
   padding: 8px 16px;
@@ -54,7 +54,7 @@ body {
   /* Transiciones suaves */
 }
 
-.btnDetalle:hover {
+.btnStatus:hover {
   background-color: #0056b3;
   /* Color de fondo al pasar el mouse */
   transform: scale(1.05);
@@ -65,3 +65,4 @@ td {
   font-size: 15px;
   font-family: Verdana, sans-serif;
 }
+

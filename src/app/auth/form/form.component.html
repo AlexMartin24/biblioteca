@@ -20,47 +20,46 @@
 
         <mat-form-field appearance="fill">
           <mat-label>Nombre</mat-label>
-          <input matInput formControlName="nombre" placeholder="Ingrese su nombre" />
+          <input matInput formControlName="name" placeholder="Ingrese su nombre" />
           <mat-error
-            *ngIf="primerFormUsuario.controls['nombre'].hasError('required') && primerFormUsuario.controls['nombre'].dirty">
+            *ngIf="primerFormUsuario.controls['name'].hasError('required') && primerFormUsuario.controls['name'].dirty">
             Campo obligatorio.
           </mat-error>
           <mat-error
-            *ngIf="primerFormUsuario.controls['nombre'].hasError('maxlength') && primerFormUsuario.controls['nombre'].dirty">
+            *ngIf="primerFormUsuario.controls['name'].hasError('maxlength') && primerFormUsuario.controls['name'].dirty">
             Superaste los caracteres disponibles.
           </mat-error>
           <mat-error
-            *ngIf="primerFormUsuario.controls['nombre'].hasError('pattern') && primerFormUsuario.controls['nombre'].dirty">
+            *ngIf="primerFormUsuario.controls['name'].hasError('pattern') && primerFormUsuario.controls['name'].dirty">
             Caracteres invalido.
           </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
           <mat-label>Apellido</mat-label>
-          <input matInput formControlName="apellido" placeholder="Ingrese su apellido" />
+          <input matInput formControlName="lastname" placeholder="Ingrese su apellido" />
           <mat-error
-            *ngIf="primerFormUsuario.controls['apellido'].hasError('required') && primerFormUsuario.controls['apellido'].dirty">
+            *ngIf="primerFormUsuario.controls['lastname'].hasError('required') && primerFormUsuario.controls['lastname'].dirty">
             Campo obligatorio.
           </mat-error>
           <mat-error
-            *ngIf="primerFormUsuario.controls['apellido'].hasError('maxlength') && primerFormUsuario.controls['apellido'].dirty">
+            *ngIf="primerFormUsuario.controls['lastname'].hasError('maxlength') && primerFormUsuario.controls['lastname'].dirty">
             Superaste los caracteres disponibles.
           </mat-error>
           <mat-error
-            *ngIf="primerFormUsuario.controls['apellido'].hasError('pattern') && primerFormUsuario.controls['apellido'].dirty">
+            *ngIf="primerFormUsuario.controls['lastname'].hasError('pattern') && primerFormUsuario.controls['lastname'].dirty">
             Caracteres invalido.
           </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
           <mat-label>Tipo de Usuario</mat-label>
-          <mat-select formControlName="tipoUsuario">
-            <mat-option value="ALUMNO">Alumno</mat-option>
-            <mat-option value="PROFESOR">Profesor</mat-option>
+          <mat-select formControlName="role">
+            <mat-option value="DOCENTE">Docente</mat-option>
             <mat-option value="ADMINISTRADOR">Administrador</mat-option>
           </mat-select>
           <mat-error
-            *ngIf="primerFormUsuario.controls['tipoUsuario'].hasError('required') && primerFormUsuario.controls['tipoUsuario'].dirty">
+            *ngIf="primerFormUsuario.controls['role'].hasError('required') && primerFormUsuario.controls['role'].dirty">
             Campo obligatorio.
           </mat-error>
         </mat-form-field>
@@ -82,13 +81,13 @@
 
         <mat-form-field appearance="fill">
           <mat-label>Dirección</mat-label>
-          <input matInput formControlName="direccion" placeholder="Ingrese su dirección" />
+          <input matInput formControlName="address" placeholder="Ingrese su dirección" />
           <mat-error
-            *ngIf="segundoFormUsuario.controls['direccion'].hasError('maxlength') && segundoFormUsuario.controls['direccion'].dirty">
+            *ngIf="segundoFormUsuario.controls['address'].hasError('maxlength') && segundoFormUsuario.controls['address'].dirty">
             Superaste los caracteres disponibles.
           </mat-error>
           <mat-error
-            *ngIf="segundoFormUsuario.controls['direccion'].hasError('pattern') && segundoFormUsuario.controls['direccion'].dirty">
+            *ngIf="segundoFormUsuario.controls['address'].hasError('pattern') && segundoFormUsuario.controls['address'].dirty">
             Caracteres invalido.
           </mat-error>
 
@@ -96,7 +95,7 @@
 
         <mat-form-field appearance="fill">
           <mat-label>Fecha de Nacimiento</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="fechaNacimiento">
+          <input matInput [matDatepicker]="picker" formControlName="birthdate">
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
@@ -104,13 +103,13 @@
 
         <mat-form-field>
           <mat-label>Teléfono</mat-label>
-          <input matInput formControlName="telefono" placeholder="Ingrese su teléfono" />
+          <input matInput formControlName="phone" placeholder="Ingrese su teléfono" />
           <mat-error
-            *ngIf="segundoFormUsuario.controls['telefono'].hasError('maxlength') && segundoFormUsuario.controls['telefono'].dirty">
+            *ngIf="segundoFormUsuario.controls['phone'].hasError('maxlength') && segundoFormUsuario.controls['phone'].dirty">
             Superaste los caracteres disponibles.
           </mat-error>
           <mat-error
-            *ngIf="segundoFormUsuario.controls['telefono'].hasError('pattern') && segundoFormUsuario.controls['telefono'].dirty">
+            *ngIf="segundoFormUsuario.controls['phone'].hasError('pattern') && segundoFormUsuario.controls['phone'].dirty">
             Caracter invalido.
           </mat-error>
 

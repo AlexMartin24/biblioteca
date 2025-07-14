@@ -1,0 +1,110 @@
+/* === Tipografía global === */
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    margin: 0;
+}
+
+/* === Contenedor del diálogo === */
+.medidas-dialog {
+    max-height: 100vh;
+    max-width: 30vw;
+    overflow-y: auto;
+    position: relative;
+    /* ← importante para ubicar la cruz */
+}
+
+
+@media (max-width: 600px) {
+    .medidas-dialog {
+        width: 90%;
+    }
+}
+
+/* === Formulario === */
+.form-signin h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+@media (max-width: 576px) {
+    .form-signin h1 {
+        font-size: 1.5rem;
+    }
+}
+
+.form-floating {
+    margin-bottom: 1.25rem;
+}
+
+/* === Campos === */
+.form-control {
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    padding: 0.75rem;
+}
+
+.form-control:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+}
+
+/* === Botones === */
+button {
+    border-radius: 8px;
+    padding: 0.75rem;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    border: none;
+    width: 100%;
+}
+
+button[type="submit"] {
+    background: #3498db;
+    color: #fff;
+}
+
+button[type="submit"]:hover {
+    background: #2980b9;
+}
+
+button[type="button"]:hover {
+    background: #ced5da;
+}
+
+/* === Botón Google === */
+.google-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    width: 100%;
+}
+
+.google-logo {
+    height: 20px;
+}
+
+/* === Texto secundario === */
+.text-muted {
+    color: #999;
+    text-align: center;
+    font-size: 0.875rem;
+}
+
+
+.close-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 10;
+    background: transparent;
+    color: #555;
+}
+
+.close-button:hover {
+    color: #000;
+}

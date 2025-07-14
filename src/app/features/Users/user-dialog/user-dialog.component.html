@@ -1,0 +1,129 @@
+<h1 mat-dialog-title>Datos del Usuario</h1>
+<div mat-dialog-content class="medidas-dialog">
+  <form [formGroup]="editForm" class="input-group-sm mb-3">
+    <!-- <div class="row">
+        <label for="id" class="form-label">
+          id:
+          <input
+            type="text"
+            name="id"
+            formControlName="id"
+            class="form-control"
+          />
+        </label>
+      </div> -->
+
+    <div class="row">
+      <label for="name" class="form-label">Nombre:
+        <input type="text" name="name" formControlName="name" class="form-control" />
+        <div class="valido" *ngIf="editForm.controls['name'].dirty && editForm.controls['name'].valid">Correcto!</div>
+        <div class="invalido" *ngIf="editForm.controls['name'].dirty && editForm.controls['name'].errors?.['required']">
+          El campo es requerido</div>
+        <div class="invalido" *ngIf="editForm.controls['name'].dirty && editForm.controls['name'].errors?.['pattern']">
+          Este campo solo puede contener letras</div>
+      </label>
+    </div>
+
+    <div class="row">
+      <label for="lastname" class="form-label">Apellido:
+        <input type="text" name="lastname" formControlName="lastname" class="form-control" />
+        <div class="valido" *ngIf="editForm.controls['lastname'].dirty && editForm.controls['lastname'].valid">Correcto!
+        </div>
+        <div class="invalido"
+          *ngIf="editForm.controls['lastname'].dirty && editForm.controls['lastname'].errors?.['required']">
+          El campo es requerido
+        </div>
+        <div class="invalido"
+          *ngIf="editForm.controls['lastname'].dirty && editForm.controls['lastname'].errors?.['pattern']">
+          Este campo solo puede contener letras
+        </div>
+      </label>
+    </div>
+
+    <div class="row">
+      <label for="email" class="form-label">Correo:
+        <input type="text" name="email" formControlName="email" class="form-control" />
+        <div class="valido" *ngIf="editForm.controls['email'].dirty && editForm.controls['email'].valid">Correcto!
+        </div>
+        <div class="invalido"
+          *ngIf="editForm.controls['email'].dirty && editForm.controls['email'].errors?.['required']">
+          El campo es requerido
+        </div>
+        <div class="invalido"
+          *ngIf="editForm.controls['email'].dirty && editForm.controls['email'].errors?.['pattern']">
+          Mail incorrecto
+        </div>
+      </label>
+    </div>
+
+    <div class="row">
+      <label for="phone" class="form-label">Telefono:
+        <input type="text" name="phone" formControlName="phone" class="form-control" />
+        <div class="valido" *ngIf="editForm.controls['phone'].dirty && editForm.controls['phone'].valid">Correcto!
+        </div>
+        <div class="invalido"
+          *ngIf="editForm.controls['phone'].dirty && editForm.controls['phone'].errors?.['pattern']">
+          Este campo solo puede contener números.
+        </div>
+      </label>
+    </div>
+
+    <div class="row">
+      <label for="address" class="form-label">Dirección:
+        <input type="text" name="address" formControlName="address" class="form-control" />
+        <div *ngIf="editForm.controls['address'].dirty">
+          <div class="valido" *ngIf="editForm.controls['address'].valid">Correcto!</div>
+          <div class="invalido" *ngIf="editForm.controls['address'].errors?.['required']">
+            El campo es requerido.
+          </div>
+          <div class="invalido" *ngIf="editForm.controls['address'].errors?.['pattern']">
+            Caracter inválido.
+          </div>
+        </div>
+      </label>
+    </div>
+
+
+    <div class="row">
+      <label for="role" class="form-label">Rol:
+        <input type="text" name="role" formControlName="role" class="form-control" />
+        <div class="valido" *ngIf="editForm.controls['role'].dirty && editForm.controls['role'].valid">Correcto!</div>
+        <div class="invalido" *ngIf="editForm.controls['role'].dirty && editForm.controls['role'].errors?.['required']">
+          El campo es requerido</div>
+        <div class="invalido" *ngIf="editForm.controls['role'].dirty && editForm.controls['role'].errors?.['pattern']">
+          Este campo solo puede contener letras</div>
+      </label>
+    </div>
+
+    <!-- <div class="row">
+      <label for="schoolId" class="form-label">Rol:
+        <input type="text" name="schoolId" formControlName="schoolId" class="form-control" />
+        <div class="valido"
+          *ngIf="editForm.controls['schoolId'].dirty && editForm.controls['schoolId'].valid">Correcto!</div>
+        <div class="invalido"
+          *ngIf="editForm.controls['schoolId'].dirty && editForm.controls['schoolId'].errors?.['required']">
+          El campo es requerido</div>
+        <div class="invalido"
+          *ngIf="editForm.controls['schoolId'].dirty && editForm.controls['schoolId'].errors?.['pattern']">
+          Este campo solo puede contener letras</div>
+      </label>
+    </div> -->
+
+
+
+
+    <mat-form-field>
+      <mat-label>Fecha de Nacimiento: </mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="birthdate" placeholder="dd/mm/yyyy" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+
+
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="aceptar()">Aceptar</button>
+  <button mat-button color="warn" (click)="cancelar()">Cancelar</button>
+</div>

@@ -5,7 +5,7 @@ import { ListarCursosComponent } from './features/Cursos/listar-cursos/listar-cu
 import { ListarAlumnosComponent } from './features/Alumnos/listar-alumnos/listar-alumnos.component';
 import { PerfilAlumnoComponent } from './features/Alumnos/perfil-alumno/perfil-alumno.component';
 import { CursoComponent } from './features/Cursos/curso/curso.component';
-import { LoginComponent } from './auth/login/login.component';
+// import { LoginComponent } from './auth/login/login.component';
 import { FormComponent } from './auth/form/form.component';
 import { IndexComponent } from './core/components/index/index.component';
 import { ListUserComponent } from './features/Users/list-user/list-user.component';

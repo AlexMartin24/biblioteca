@@ -3,8 +3,8 @@ import { AuthService } from '../../../auth/service/auth.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { SharedModule } from '../../../shared/shared.module';
-import { LoginComponent } from '../../../auth/components/login/login.component';
 import { MatDialog } from '@angular/material/dialog';
+import { LoginDialogComponent } from '../../../auth/components/login-dialog/login-dialog.component';
 
 @Component({
   selector: 'app-navbar',
@@ -15,7 +15,6 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class NavbarComponent {
 
-
   isLoggedIn$!: Observable<boolean>;
 
   constructor(private dialog: MatDialog,
@@ -25,7 +24,7 @@ export class NavbarComponent {
     this.isLoggedIn$ = this.loginService.isLoggedIn$;
   }
 
-  cerrarSesion() {
+  logOut() {
     this.loginService
       .logout()
       .then(() => {
@@ -41,16 +40,16 @@ export class NavbarComponent {
 
 
 
-  abrirLoginDialog() {
-    const dialogRef = this.dialog.open(LoginComponent, {
+  loginDialog() {
+    const dialogRef = this.dialog.open(LoginDialogComponent, {
       data: { email: '', password: '' },
-      // disableClose: true
+      disableClose: true
     });
-  
+
     dialogRef.afterClosed().subscribe(result => {
       console.log('El diálogo fue cerrado', result);
     });
   }
-  
+
 }
 

@@ -1,12 +1,17 @@
 
+export interface UserCredentials {
+    email: string;
+    password: string;
+}
+
 export interface User {
-    idUser: string;
+    userId: string;
     address: string;
     email: string;
     lastname: string;
     name: string;
     phone: string;
-    role: string;
+    role: 'DOCENTE' | 'ADMINISTRADOR';
     birthdate: Date;
     schooldId: string;
 
@@ -17,9 +22,11 @@ export interface User {
 }
 
 export interface NewUser {
+    address: string;
     email: string;
-    name: string;
     lastname: string;
+    name: string;
+    phone: string;
     role: string;
     birthdate: Date;
     schooldId: string;

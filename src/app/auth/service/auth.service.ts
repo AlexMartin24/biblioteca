@@ -11,7 +11,9 @@ import { Firestore, doc, getDoc, setDoc } from '@angular/fire/firestore';
 import { GoogleAuthProvider, setPersistence, signInWithPopup } from 'firebase/auth';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { regexMail } from '../../shared/pattern/patterns';
-import { User, UserCredentials } from '../usuario.model';
+import { FirebaseError } from 'firebase/app';
+import { ErrorHandlerService } from '../../core/services/error-handler.service';
+import { User, UserCredentials } from '../../features/Users/model/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +22,11 @@ export class AuthService {
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
   isLoggedIn$: Observable<boolean> = this.isLoggedInSubject.asObservable();
 
-  constructor(private auth: Auth, private firestore: Firestore) {
+  constructor(
+    private auth: Auth,
+    private firestore: Firestore,
+    private errorHandler: ErrorHandlerService,
+  ) {
     // Establecer persistencia a session
     setPersistence(this.auth, browserLocalPersistence)
       .then(() => {
@@ -30,12 +36,20 @@ export class AuthService {
         console.error('Error al establecer la persistencia:', error);
       });
 
-    onAuthStateChanged(this.auth, (user) => {
+    onAuthStateChanged(this.auth, async (user) => {
       this.isLoggedInSubject.next(!!user);
       if (user) {
         console.log('Usuario autenticado:', user);
+        const docSnap = await getDoc(doc(this.firestore, `users/${user.uid}`));
+        if (docSnap.exists()) {
+          const usuarioFirestore = docSnap.data() as User;
+          this.usuarioActualSubject.next(usuarioFirestore);
+        } else {
+          this.usuarioActualSubject.next(null);
+        }
       } else {
         console.log('No hay usuario autenticado');
+        this.usuarioActualSubject.next(null);
       }
     });
   }
@@ -44,10 +58,43 @@ export class AuthService {
     try {
       return await signInWithEmailAndPassword(this.auth, email, password);
     } catch (error) {
-      console.error('Error al iniciar sesión:', error);
-      throw error;
+      if (error instanceof FirebaseError) {
+        throw new Error(this.errorHandler.handleFirebaseError(error));
+      } else {
+        this.errorHandler.log(error);
+        throw new Error('Error desconocido al iniciar sesión.');
+      }
     }
   }
+
+  async loginWithGoogle() {
+    return await this.registerWithGoogle();
+  }
+
+  async registerWithGoogle() {
+    const userCredential = await signInWithPopup(this.auth, new GoogleAuthProvider());
+    const user = userCredential.user;
+
+    const userRef = doc(this.firestore, `users/${user.uid}`);
+
+    // Verifica si el usuario ya existe
+    const docSnap = await getDoc(userRef);
+    if (!docSnap.exists()) {
+      // Guardar datos básicos en Firestore
+      await setDoc(userRef, {
+        correo: user.email,
+        nombre: user.displayName!.split(' ')[0], // Nombre
+        apellido: user.displayName!.split(' ')[2] || '', // Apellido
+        photoURL: user.photoURL || '', // URL de la foto de perfil
+        enabled: true,
+        createdAt: new Date().toISOString(),
+      });
+      return { uid: user.uid, newUser: true }; // Indicar que es un nuevo usuario
+    } else {
+      return { uid: user.uid, newUser: false }; // Indicar que ya existe
+    }
+  }
+
 
   async logout() {
     await signOut(this.auth);
@@ -70,23 +117,19 @@ export class AuthService {
     );
 
     const user = userCredential.user;
-    const userRef = doc(this.firestore, `usuarios/${user.uid}`);
+    const userRef = doc(this.firestore, `users/${user.uid}`);
 
     // guardar el email en Firestore
     await setDoc(userRef, {
       email: user.email,
-      isDeleted: false,
+      enabled: true,
       createdAt: new Date().toISOString(), // Guarda la fecha actual
     });
     return user.uid; // Devolver el ID del usuario para usarlo más tarde
   }
 
-  async loginWithGoogle() {
-    return await this.registerWithGoogle();
-  }
-
   async obtenerDatosUsuario(userId: string): Promise<User | null> {
-    const userRef = doc(this.firestore, `usuarios/${userId}`);
+    const userRef = doc(this.firestore, `users/${userId}`);
     const docSnap = await getDoc(userRef);
     if (docSnap.exists()) {
       return docSnap.data() as User;
@@ -95,52 +138,15 @@ export class AuthService {
     }
   }
 
-  // async obtenerUsuariosEliminados(userId: string): Promise<User | null> {
-  //   const userRef = doc(this.firestore, `usuarios/${userId}`);
-  //   const docSnap = await getDoc(userRef);
-  //   if (docSnap.exists()) {
-  //     if (userRef.isDeleted = false){
-      
-  //       return docSnap.data() as User;
 
-  //   }
-  //   return docSnap.data() as User;
-  //   }
-  //   else {
-  //     return null;
-  //   }
-  // }
 
 
   async agregarDatosUsuario(userId: string, userData: User) {
-    const userRef = doc(this.firestore, `usuarios/${userId}`);
+    const userRef = doc(this.firestore, `users/${userId}`);
     // merge: true para no sobrescribir el email si ya existe
     return setDoc(userRef, userData, { merge: true });
   }
 
-  async registerWithGoogle() {
-    const userCredential = await signInWithPopup(this.auth, new GoogleAuthProvider());
-    const user = userCredential.user;
-
-    const userRef = doc(this.firestore, `usuarios/${user.uid}`);
-
-    // Verifica si el usuario ya existe
-    const docSnap = await getDoc(userRef);
-    if (!docSnap.exists()) {
-      // Guardar datos básicos en Firestore
-      await setDoc(userRef, {
-        correo: user.email,
-        nombre: user.displayName!.split(' ')[0], // Nombre
-        apellido: user.displayName!.split(' ')[2] || '', // Apellido
-        photoURL: user.photoURL || '', // URL de la foto de perfil
-        isDeleted: false,
-        createdAt: new Date().toISOString(),
-      });
-      return { uid: user.uid, newUser: true }; // Indicar que es un nuevo usuario
-    } else {
-      return { uid: user.uid, newUser: false }; // Indicar que ya existe
-    }
-  }
 
   private validarContasena(password: string): boolean {
     return password.length >= 6;
@@ -156,4 +162,18 @@ export class AuthService {
     console.log(user);
     return user ? user.uid : null;
   }
+
+  private usuarioActualSubject = new BehaviorSubject<User | null>(null);
+  usuarioActual$ = this.usuarioActualSubject.asObservable();
+
+
+  getEscuelaId(): string | null {
+    return this.usuarioActualSubject.value?.schooldId || null;
+  }
+
+  getRolUsuario(): string | null {
+    return this.usuarioActualSubject.value?.role || null;
+  }
+
+
 }

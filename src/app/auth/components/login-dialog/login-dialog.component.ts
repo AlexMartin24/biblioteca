@@ -1,26 +1,29 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { UserCredentials } from '../../usuario.model';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { SharedModule } from '../../../shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AuthService } from '../../service/auth.service';
+import { UserCredentials } from '../../../features/Users/model/user.model';
+import { RegisterDialogComponent } from '../register-dialog/register-dialog.component';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-login-dialog',
   standalone: true,
   imports: [SharedModule, MatDialogModule],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  templateUrl: './login-dialog.component.html',
+  styleUrl: './login-dialog.component.css'
 })
-export class LoginComponent {
+export class LoginDialogComponent {
   loginUser!: FormGroup;
 
   constructor(
-    private dialogRef: MatDialogRef<LoginComponent>,
-    private router: Router,
+    private dialogRef: MatDialogRef<LoginDialogComponent>,
+    private dialog: MatDialog,
     private authService: AuthService,
+    private router: Router,
+
     @Inject(MAT_DIALOG_DATA) public data: UserCredentials
   ) {
     this.loginUser = new FormGroup({
@@ -49,7 +52,6 @@ export class LoginComponent {
 
   enviarForm() {
     console.log(this.loginUser.value);
-
     this.authService.login(this.loginUser.value)
       .then(() => {
         // Cierra el diálogo
@@ -59,4 +61,21 @@ export class LoginComponent {
       })
       .catch(error => console.log(error));
   }
+
+  registerDialog() {
+    this.dialogRef.close();
+    const dialogRef = this.dialog.open(RegisterDialogComponent, {
+      data: { email: '', password: '' },
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('El registro fue cerrado', result);
+    });
+  }
+
+  closeDialog() {
+    this.dialogRef.close();
+  }
+
 }

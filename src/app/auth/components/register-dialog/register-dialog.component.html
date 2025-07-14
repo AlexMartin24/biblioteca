@@ -1,0 +1,66 @@
+<div mat-dialog-content class="medidas-dialog">
+
+    <button class="close-button" mat-icon-button (click)="closeDialog()">
+        <mat-icon>close</mat-icon>
+    </button>
+
+    <div class="text-center">
+        <main class="form-signin">
+            <img class="mb-4" src="https://avellaneda.ibeltran.com.ar/img/logo/logo.png" alt="Logo" />
+            <h1 mat-dialog-title>Registrarse</h1>
+
+            <form [formGroup]="userForm" (ngSubmit)="registrarUsuario()" class="row">
+                <mat-form-field appearance="fill">
+                    <mat-label>Correo Electrónico</mat-label>
+                    <input matInput type="email" formControlName="email" placeholder="email@example.com" />
+                    <mat-error
+                        *ngIf="userForm.controls['email'].hasError('required') && userForm.controls['email'].dirty">
+                        El campo es requerido
+                    </mat-error>
+                    <mat-error
+                        *ngIf="userForm.controls['email'].hasError('pattern') && userForm.controls['email'].dirty">
+                        Mail no valido.
+                    </mat-error>
+                    <mat-error
+                        *ngIf="userForm.controls['email'].hasError('maxlength') && userForm.controls['email'].dirty">
+                        Superaste los caracteres disponibles.
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Contraseña</mat-label>
+                    <input matInput type="password" formControlName="password" placeholder="Escriba su contraseña" />
+                </mat-form-field>
+
+                <div class="requisitosContasena" *ngIf="userForm.get('password')?.dirty">
+                    <p>Tu contraseña debe cumplir con los siguientes requisitos:</p>
+                    <ul>
+                        <li
+                            [ngClass]="{'valido': !passwordHasError('minuscula'), 'invalido': passwordHasError('minuscula')}">
+                            Contener al menos una letra minúscula
+                        </li>
+                        <li
+                            [ngClass]="{'valido': !passwordHasError('mayuscula'), 'invalido': passwordHasError('mayuscula')}">
+                            Contener al menos una letra mayúscula
+                        </li>
+                        <li [ngClass]="{'valido': !passwordHasError('numero'), 'invalido': passwordHasError('numero')}">
+                            Contener al menos un número
+                        </li>
+                        <li
+                            [ngClass]="{'valido': !passwordHasError('minLength'), 'invalido': passwordHasError('minLength')}">
+                            Tener un mínimo de 6 caracteres
+                        </li>
+                    </ul>
+                </div>
+
+                <button class="w-100 btn btn-lg btn-primary" type="submit">
+                    Registrarse
+                </button>
+
+                <hr class="dropdown-divider" />
+
+            </form>
+        </main>
+    </div>
+
+</div>
