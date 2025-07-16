@@ -82,9 +82,9 @@ export class AuthService {
     if (!docSnap.exists()) {
       // Guardar datos básicos en Firestore
       await setDoc(userRef, {
-        correo: user.email,
-        nombre: user.displayName!.split(' ')[0], // Nombre
-        apellido: user.displayName!.split(' ')[2] || '', // Apellido
+        email: user.email,
+        name: user.displayName!.split(' ')[0], // Nombre
+        lastname: user.displayName!.split(' ')[2] || '', // Apellido
         photoURL: user.photoURL || '', // URL de la foto de perfil
         enabled: true,
         createdAt: new Date().toISOString(),

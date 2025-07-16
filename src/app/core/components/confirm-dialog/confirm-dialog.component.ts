@@ -13,10 +13,11 @@ export class ConfirmDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { 
-      title: string; 
-      message: string; 
-      type: 'confirm' | 'info' | 'error' }
+    @Inject(MAT_DIALOG_DATA) public data: {
+      title: string;
+      message: string;
+      type: 'confirm' | 'info' | 'error' | 'delete' | 'enable';
+    }
   ) { }
 
   onConfirm(): void {

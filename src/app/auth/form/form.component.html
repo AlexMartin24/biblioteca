@@ -13,10 +13,10 @@
     {{!isLinear ? 'Completar Formulario' : 'Disable linear mode'}}
   </button> -->
   <mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
-    <!-- Primer Form: Datos Personales -->
+    <!-- Primer Form: Datos Obligatorios -->
     <mat-step [stepControl]="primerFormUsuario">
       <form [formGroup]="primerFormUsuario">
-        <ng-template matStepLabel>Datos Personales</ng-template>
+        <ng-template matStepLabel>Datos Obligatorios</ng-template>
 
         <mat-form-field appearance="fill">
           <mat-label>Nombre</mat-label>
@@ -53,6 +53,13 @@
         </mat-form-field>
 
         <mat-form-field appearance="fill">
+          <mat-label>Fecha de Nacimiento</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="birthdate">
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
           <mat-label>Tipo de Usuario</mat-label>
           <mat-select formControlName="role">
             <mat-option value="DOCENTE">Docente</mat-option>
@@ -64,9 +71,6 @@
           </mat-error>
         </mat-form-field>
 
-
-
-
         <div>
           <button mat-button matStepperNext>Siguiente</button>
         </div>
@@ -74,10 +78,10 @@
       </form>
     </mat-step>
 
-    <!-- Segundo Form: Datos Complementarios -->
+    <!-- Segundo Form: Datos Opcionales -->
     <mat-step [stepControl]="segundoFormUsuario">
       <form [formGroup]="segundoFormUsuario">
-        <ng-template matStepLabel>Datos Complementarios</ng-template>
+        <ng-template matStepLabel>Datos Opcionales</ng-template>
 
         <mat-form-field appearance="fill">
           <mat-label>Dirección</mat-label>
@@ -93,12 +97,6 @@
 
         </mat-form-field>
 
-        <mat-form-field appearance="fill">
-          <mat-label>Fecha de Nacimiento</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="birthdate">
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
 
 
         <mat-form-field>

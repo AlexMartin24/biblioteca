@@ -93,7 +93,7 @@ export class UserService {
     await updateDoc(userRef, editUser);
   }
 
-  async deleteUser(uid: string) {
+  async disableUser(uid: string) {
     const userRef = doc(this.firestore, `users/${uid}`);
 
     // Asegúrate de que uid es una cadena válida antes de intentar actualizar
@@ -104,6 +104,15 @@ export class UserService {
   }
 
 
+  async enableUser(uid: string) {
+    const userRef = doc(this.firestore, `users/${uid}`);
+
+    // Asegúrate de que uid es una cadena válida antes de intentar actualizar
+    await updateDoc(userRef, {
+      enabled: true,
+      updatedAt: new Date().toISOString(),
+    });
+  }
 
 
 }

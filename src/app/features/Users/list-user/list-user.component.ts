@@ -200,7 +200,7 @@ export class ListUserComponent {
 
 
 
-  deleteUser(user: User) {
+  disableUser(user: User) {
     if (!user.userId) {
       console.error('ID del user es indefinido');
       return;
@@ -217,7 +217,7 @@ export class ListUserComponent {
     dialogRef.afterClosed().subscribe(async (result) => {
       if (result) {
         try {
-          await this.usersService.deleteUser(user.userId);
+          await this.usersService.disableUser(user.userId);
           console.log('User eliminado correctamente');
           this.dialog.open(ConfirmDialogComponent, {
             data: {
@@ -233,6 +233,57 @@ export class ListUserComponent {
               title: 'Error',
               message:
                 'No se pudo eliminar al usuario. Inténtalo de nuevo más tarde.',
+              type: 'error',
+            },
+          });
+        }
+      } else {
+        console.log('No se eliminaron datos');
+        this.dialog.open(ConfirmDialogComponent, {
+          data: {
+            title: 'Cancelar',
+            message: 'No se realizó la acción.',
+            type: 'info',
+          },
+        });
+      }
+    });
+  }
+
+
+  enableUser(user: User) {
+    if (!user.userId) {
+      console.error('ID del user es indefinido');
+      return;
+    }
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Confirmar Alta del Usuario',
+        message: '¿Estás seguro de que deseas dar de alta este usuario?',
+        type: 'enable',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(async (result) => {
+      if (result) {
+        try {
+          await this.usersService.enableUser(user.userId);
+          console.log('User dado de alta correctamente');
+          this.dialog.open(ConfirmDialogComponent, {
+            data: {
+              title: 'Éxito',
+              message: 'El usuario ha sido dado de alta correctamente.',
+              type: 'info',
+            },
+          });
+        } catch (error) {
+          console.error('Error al dar de alta el usuario:', error);
+          this.dialog.open(ConfirmDialogComponent, {
+            data: {
+              title: 'Error',
+              message:
+                'No se pudo dar de alta el usuario. Inténtalo de nuevo más tarde.',
               type: 'error',
             },
           });
