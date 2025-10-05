@@ -74,13 +74,19 @@
                     Acciones
                 </th>
                 <td mat-cell *matCellDef="let user" class="centered-cell">
-                    <button mat-mini-fab color="primary" class="btnActions" aria-label="editar"
-                        (click)="editUser(user)">
+                    <button mat-mini-fab color="primary" class="btnActions" aria-label="editar" (click)="editUser(user)"
+                        *ngIf="!showDisabledTable">
                         <mat-icon>edit</mat-icon>
                     </button>
+                    
                     <button mat-mini-fab color="warn" class="btnActions" aria-label="eliminar"
-                        (click)="deleteUser(user)">
+                        (click)="disableUser(user)" *ngIf="!showDisabledTable">
                         <mat-icon>delete</mat-icon>
+                    </button>
+
+                    <button mat-mini-fab color="accent" class="btnActions" aria-label="dar de alta"
+                        (click)="enableUser(user)" *ngIf="showDisabledTable">
+                        <mat-icon>person_add</mat-icon>
                     </button>
                 </td>
             </ng-container>

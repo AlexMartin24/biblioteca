@@ -168,7 +168,7 @@ export class AuthService {
 
 
   getEscuelaId(): string | null {
-    return this.usuarioActualSubject.value?.schooldId || null;
+    return this.usuarioActualSubject.value?.schoolId || null;
   }
 
   getRolUsuario(): string | null {

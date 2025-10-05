@@ -8,7 +8,6 @@ import { DialogCursoComponent } from '../dialog-curso/dialog-curso.component';
 import { Router } from '@angular/router';
 import { ProfesorService } from '../../Profesor/services/profesor.service';
 import { Profesor } from '../../Profesor/profesor.model';
-import { ProfesorCursoService } from '../../../profesor-curso.service';
 
 @Component({
   selector: 'app-listar-cursos',
@@ -25,18 +24,17 @@ export class ListarCursosComponent {
   constructor(
     private dialog: MatDialog,
     private cursosService: CursosService,
-    private cursosConProfesoresService: ProfesorCursoService,
     private router: Router,
   ) { }
 
   ngOnInit(): void {
-    this.obtenerCursosConProfesores();
+    // this.obtenerCursosConProfesores();
   }
 
 
-  obtenerCursosConProfesores() {
-    return this.cursosConProfesores$ = this.cursosConProfesoresService.obtenerCursosConProfesores();
-  }
+  // obtenerCursosConProfesores() {
+  //   return this.cursosConProfesores$ = this.cursosConProfesoresService.obtenerCursosConProfesores();
+  // }
 
 
 

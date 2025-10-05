@@ -1,21 +1,34 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User, NewUser } from '../model/user.model';
+import { User, NewUser, UserCredentials } from '../model/user.model';
 import {
-  collection, doc, Firestore, getDoc, getDocs, onSnapshot, query, setDoc, Timestamp, updateDoc, where,
+  collection,
+  doc,
+  Firestore,
+  getDoc,
+  getDocs,
+  onSnapshot,
+  query,
+  setDoc,
+  Timestamp,
+  updateDoc,
+  where,
 } from '@angular/fire/firestore';
 
 import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
 import firebase, { FirebaseError } from 'firebase/app';
 import { ErrorHandlerService } from '../../../core/services/error-handler.service';
+import { sendEmailVerification } from 'firebase/auth';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-  constructor(private auth: Auth, private firestore: Firestore, private errorHandler: ErrorHandlerService
-  ) { }
-
+  constructor(
+    private auth: Auth,
+    private firestore: Firestore,
+    private errorHandler: ErrorHandlerService
+  ) {}
 
   getUsersByStatus(enabled: boolean): Observable<User[]> {
     const usersRef = collection(this.firestore, 'users');
@@ -69,7 +82,7 @@ export class UserService {
         phone: newUser.phone,
         role: newUser.role,
         birthdate: newUser.birthdate,
-        schooldId: newUser.schooldId,
+        schoolId: newUser.schoolId || 'Sin asignar',
         enabled: newUser.enabled,
         createdAt: new Date().toISOString(),
       });
@@ -83,17 +96,56 @@ export class UserService {
     }
   }
 
+  // -----------------
+  // El Admin crea la ficha en Firestore (no en Auth).
+async preloadUser(newUser: NewUser): Promise<string> {
+  const userRef = doc(collection(this.firestore, 'users'));
+  const userId = userRef.id;
 
-  async updateUserData(
-    userId: string,
-    editUser: Partial<User>
-  ): Promise<void> {
+  await setDoc(userRef, {
+    userId,
+    ...newUser,
+    enabled: false,
+    createdAt: new Date().toISOString(),
+  });
+
+  return userId;
+}
+
+async createUserAsAdmin(newUser: NewUser, password: string): Promise<void> {
+  // 1️⃣ Crear usuario en Auth
+  const userCredential = await createUserWithEmailAndPassword(
+    this.auth,
+    newUser.email,
+    password // contraseña temporal generada por el admin
+  );
+
+  const uid = userCredential.user.uid;
+
+  // 2️⃣ Enviar correo de verificación
+  await sendEmailVerification(userCredential.user);
+
+  // 3️⃣ Guardar ficha en Firestore con el UID
+  const userRef = doc(this.firestore, `users/${uid}`);
+  await setDoc(userRef, {
+    userId: uid,
+    ...newUser,
+    enabled: false, // hasta que confirme el mail
+    createdAt: new Date().toISOString(),
+  });
+}
+  
+
+
+  // -----------------
+
+  async updateUserData(userId: string, editUser: Partial<User>): Promise<void> {
     const userRef = doc(this.firestore, `users/${userId}`);
     // console.log('ID del usuario:', userId);
     await updateDoc(userRef, editUser);
   }
 
-  async deleteUser(uid: string) {
+  async disableUser(uid: string) {
     const userRef = doc(this.firestore, `users/${uid}`);
 
     // Asegúrate de que uid es una cadena válida antes de intentar actualizar
@@ -103,7 +155,13 @@ export class UserService {
     });
   }
 
+  async enableUser(uid: string) {
+    const userRef = doc(this.firestore, `users/${uid}`);
 
-
-
+    // Asegúrate de que uid es una cadena válida antes de intentar actualizar
+    await updateDoc(userRef, {
+      enabled: true,
+      updatedAt: new Date().toISOString(),
+    });
+  }
 }

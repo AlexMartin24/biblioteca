@@ -84,16 +84,18 @@
     </div>
 
 
-    <div class="row">
-      <label for="role" class="form-label">Rol:
-        <input type="text" name="role" formControlName="role" class="form-control" />
-        <div class="valido" *ngIf="editForm.controls['role'].dirty && editForm.controls['role'].valid">Correcto!</div>
-        <div class="invalido" *ngIf="editForm.controls['role'].dirty && editForm.controls['role'].errors?.['required']">
-          El campo es requerido</div>
-        <div class="invalido" *ngIf="editForm.controls['role'].dirty && editForm.controls['role'].errors?.['pattern']">
-          Este campo solo puede contener letras</div>
-      </label>
+<div class="row">
+  <label for="role" class="form-label">Rol:
+    <input type="text" name="role" formControlName="role" class="form-control" />
+    <div class="valido" *ngIf="editForm.controls['role']?.dirty && editForm.controls['role']?.valid">Correcto!</div>
+    <div class="invalido" *ngIf="editForm.controls['role']?.dirty && editForm.controls['role']?.errors?.['required']">
+      El campo es requerido
     </div>
+    <div class="invalido" *ngIf="editForm.controls['role']?.dirty && editForm.controls['role']?.errors?.['pattern']">
+      Este campo solo puede contener letras
+    </div>
+  </label>
+</div>
 
     <!-- <div class="row">
       <label for="schoolId" class="form-label">Rol:

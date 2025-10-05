@@ -13,7 +13,7 @@ export interface User {
     phone: string;
     role: 'DOCENTE' | 'ADMINISTRADOR';
     birthdate: Date;
-    schooldId: string;
+    schoolId: string;
 
     photoURL?: string;
     enabled: boolean;
@@ -29,7 +29,7 @@ export interface NewUser {
     phone: string;
     role: string;
     birthdate: Date;
-    schooldId: string;
+    schoolId: string;
 
     photoURL?: string;
     enabled: boolean;

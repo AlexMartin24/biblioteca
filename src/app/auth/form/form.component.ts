@@ -39,9 +39,7 @@ export class FormComponent implements OnInit {
     });
 
     this.segundoFormUsuario = new FormGroup({
-      address: new FormControl('', [
-        Validators.maxLength(50),
-      ]),
+      address: new FormControl('', [Validators.maxLength(50)]),
       birthdate: new FormControl(''),
       phone: new FormControl('', [
         Validators.pattern(regexNumeros),
@@ -96,13 +94,14 @@ export class FormComponent implements OnInit {
       return;
     }
 
-    this.authService.agregarDatosUsuario(userId, nuevoUsuario)
+    this.authService
+      .agregarDatosUsuario(userId, nuevoUsuario)
       .then(() => {
         console.log('Datos guardados correctamente');
         this.router.navigate(['/cursos/']);
       })
       .catch((error) => {
-        console.error('Error guardando datos: ', error);
+        console.error('Error guardando datos: ', error, nuevoUsuario);
       });
   }
 }

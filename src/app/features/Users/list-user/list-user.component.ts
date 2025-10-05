@@ -5,24 +5,24 @@ import { Router } from '@angular/router';
 // import { ConfirmDialogComponent } from '../../../core/components/confirm-dialog/confirm-dialog.component';
 
 import { User, NewUser } from '../model/user.model';
-import { UserService } from '../service/user.service';
+import { UserService } from '../services/user.service';
 
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { UserDialogComponent } from '../user-dialog/user-dialog.component';
 import { ConfirmDialogComponent } from '../../../core/components/confirm-dialog/confirm-dialog.component';
-
+import { DialogService } from '../../../core/services/dialog.service';
+import { UserDialogService } from '../services/user-dialog.service';
 
 @Component({
   selector: 'app-list-user',
   standalone: true,
   imports: [SharedModule],
   templateUrl: './list-user.component.html',
-  styleUrl: './list-user.component.css'
+  styleUrl: './list-user.component.css',
 })
 export class ListUserComponent {
-
   users$!: User[];
   displayedColumns: string[] = [
     'Name',
@@ -49,8 +49,10 @@ export class ListUserComponent {
   constructor(
     private dialog: MatDialog,
     private usersService: UserService,
+    private dialogService: DialogService,
+    private userDialogService: UserDialogService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.getEnabledUsers();
@@ -64,7 +66,7 @@ export class ListUserComponent {
       },
       error: (error) => {
         console.error('Error al obtener usuarios habilitados:', error);
-      }
+      },
     });
   }
 
@@ -76,178 +78,125 @@ export class ListUserComponent {
       },
       error: (error) => {
         console.error('Error al obtener usuarios deshabilitados:', error);
-      }
-    });
-  }
-
-  addUser() {
-    const dialogRef = this.dialog.open(UserDialogComponent, {
-      data: {
-        name: '',
-        lastname: '',
-        email: '',
-        birthdate: '',
-        phone: '',
-        address: '',
-        schooldId: "",
-        role: "",
       },
     });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        const newUser: NewUser = {
-          name: result.name,
-          lastname: result.lastname,
-          email: result.email,
-          birthdate: result.birthdate,
-          phone: result.phone,
-          address: result.address,
-          schooldId: result.schooldId,
-          role: result.role,
-          enabled: true,
-          createdAt: new Date().toISOString(),
-        };
-
-        // Llama al servicio para agregar el usuario
-        this.usersService.addUser(newUser)
-          .then(() => {
-            // Solo se muestra el diálogo de éxito si la operación fue exitosa
-            this.dialog.open(ConfirmDialogComponent, {
-              data: {
-                title: 'Éxito',
-                message: 'El user ha sido agregado correctamente.',
-                type: 'info',
-              },
-            });
-          })
-          .catch((error: Error) => {
-            // Captura y muestra el error
-            console.error('Error guardando datos: ', error.message);
-            this.dialog.open(ConfirmDialogComponent, {
-              data: {
-                title: 'Error',
-                message: error.message,
-                type: 'error',
-              },
-            });
-          });
-      }
-    });
   }
 
+addUser() {
+  this.userDialogService.openUserDialog({ mode: 'create' }).subscribe((result) => {
+    if (result) {
+      // Asignar valores por defecto
+      const newUser: NewUser = {
+        name: result.name || '',
+        lastname: result.lastname || '',
+        email: result.email || '',
+        birthdate: result.birthdate || new Date(),
+        address: result.address || '',
+        phone: result.phone || '',
+        schoolId: result.schoolId || 'Sin asignar',
+        role: result.role || '',
+        enabled: false,
+        createdAt: new Date().toISOString(),
+      };
 
+      // Generar contraseña temporal para el usuario
+      const tempPassword = Math.random().toString(36).slice(-8);
+
+      this.usersService.createUserAsAdmin(newUser, tempPassword)
+        .then(() => {
+          this.dialogService.infoDialog(
+            'Éxito', 
+            'El usuario ha sido agregado correctamente y recibirá un correo para activar su cuenta.'
+          );
+        })
+        .catch((error) => {
+          this.dialogService.errorDialog('Error', error.message);
+        });
+    }
+  });
+}
 
   editUser(user: User) {
-    // console.log('ID del usuario:', user.userId); //  ID del user
-
     if (!user.userId) {
-      console.error('El ID del usuario es indefinido');
-      this.dialog.open(ConfirmDialogComponent, {
-        data: {
-          title: 'Error',
-          message: 'No se puede editar un user sin un ID.',
-          type: 'error',
-        },
-      });
-      return; // Salir si el ID no es válido
+      this.dialogService.errorDialog(
+        'Error',
+        'No se puede editar un usuario sin ID.'
+      );
+      return;
     }
 
-    const dialogRef = this.dialog.open(UserDialogComponent, {
-      disableClose: true,
-      data: user,
-    });
-
-    dialogRef.afterClosed().subscribe(async (result) => {
-      if (result) {
-        const editUser: Partial<User> = {
-          name: result.name,
-          lastname: result.lastname,
-          email: result.email,
-          birthdate: result.birthdate,
-          phone: result.phone,
-          address: result.address,
-          schooldId: result.schooldId,
-          role: result.role,
-        };
-
-        try {
-          await this.usersService.updateUserData(
-            user.userId,
-            editUser
-          );
-          console.log('User editado correctamente', result);
-          this.dialog.open(ConfirmDialogComponent, {
-            data: {
-              title: 'Éxito',
-              message: 'Datos editados correctamente.',
-              type: 'info',
-            },
-          });
-        } catch (error) {
-          console.error('Error al editar el user:', error);
-          this.dialog.open(ConfirmDialogComponent, {
-            data: {
-              title: 'Error',
-              message: 'No se pudo editar los datos del user.',
-              type: 'error',
-            },
-          });
+    this.userDialogService
+      .openUserDialog({ mode: 'edit', data: user })
+      .subscribe(async (result) => {
+        if (result) {
+          try {
+            await this.usersService.updateUserData(user.userId, result);
+            this.dialogService.infoDialog(
+              'Éxito',
+              'Datos editados correctamente.'
+            );
+          } catch (error) {
+            this.dialogService.errorDialog(
+              'Error',
+              'No se pudo editar los datos del usuario.'
+            );
+          }
         }
-      }
-    });
+      });
   }
 
-
-
-  deleteUser(user: User) {
+  disableUser(user: User) {
     if (!user.userId) {
       console.error('ID del user es indefinido');
       return;
     }
-
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      data: {
+    this.dialogService
+      .confirmDialog({
         title: 'Confirmar Eliminación',
-        message: '¿Estás seguro de que deseas eliminar este user?',
+        message: '¿Estás seguro de que deseas eliminar este usuario?',
         type: 'confirm',
-      },
-    });
-
-    dialogRef.afterClosed().subscribe(async (result) => {
-      if (result) {
-        try {
-          await this.usersService.deleteUser(user.userId);
-          console.log('User eliminado correctamente');
-          this.dialog.open(ConfirmDialogComponent, {
-            data: {
-              title: 'Éxito',
-              message: 'El usuario ha sido eliminado correctamente.',
-              type: 'info',
-            },
-          });
-        } catch (error) {
-          console.error('Error al eliminar el usuario:', error);
-          this.dialog.open(ConfirmDialogComponent, {
-            data: {
-              title: 'Error',
-              message:
-                'No se pudo eliminar al usuario. Inténtalo de nuevo más tarde.',
-              type: 'error',
-            },
-          });
+      })
+      .subscribe(async (result) => {
+        if (result) {
+          await this.usersService.disableUser(user.userId);
+          this.dialogService.infoDialog(
+            'Éxito',
+            'El usuario ha sido eliminado correctamente.'
+          );
+        } else {
+          this.dialogService.infoDialog(
+            'Cancelado',
+            'No se realizó la acción.'
+          );
         }
-      } else {
-        console.log('No se eliminaron datos');
-        this.dialog.open(ConfirmDialogComponent, {
-          data: {
-            title: 'Cancelar',
-            message: 'No se realizó la acción.',
-            type: 'info',
-          },
-        });
-      }
-    });
+      });
+  }
+
+  enableUser(user: User) {
+    if (!user.userId) {
+      console.error('ID del user es indefinido');
+      return;
+    }
+    this.dialogService
+      .confirmDialog({
+        title: 'Confirmar alta del usuario',
+        message: '¿Estás seguro de que deseas dar de alta este usuario?',
+        type: 'enable',
+      })
+      .subscribe(async (result) => {
+        if (result) {
+          await this.usersService.enableUser(user.userId);
+          this.dialogService.infoDialog(
+            'Éxito',
+            'El usuario ha sido dado de alta correctamente.'
+          );
+        } else {
+          this.dialogService.infoDialog(
+            'Cancelado',
+            'No se realizó la acción.'
+          );
+        }
+      });
   }
 
   // Función para mostrar usuarios activos o deshabilitados
@@ -262,6 +211,4 @@ export class ListUserComponent {
     // Cambiar el valor de showDisabledTable para alternar entre activos y deshabilitados
     this.showDisabledTable = !this.showDisabledTable;
   }
-
-
 }
