@@ -6,10 +6,9 @@
 export const regexMail: string = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}(\\.[a-zA-Z]{2})?$";
 
 export const regexTextos = '^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ.\\- ]{1,50}$'; // letras, tildes, espacios, puntos, guiones
-export const regexAlfanumericoConEspacios = '^[a-zA-Z0-9 ]{1,50}$'; // letras, números y espacios
+export const regexAlfanumericoConEspacios = '^[a-zA-Z0-9 áéíóúÁÉÍÓÚñÑüÜ]{1,50}$'; // letras, acentos números y espacios
 export const regexDireccion = '^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9.\\- ]{1,50}$'; // letras, números, tildes, espacios
-export const regexNumerosSimple = '^[0-9]{1,5}$'; // solo números (para cantidades)
-export const regexNumeros = '^[0-9]{1,50}$'; // solo números (para cantidades)
+export const regexNumeros = '^[0-9]{1,10}$'; // solo números (para cantidades)
 
 
 // pattern contraseña. Debe contener al menos una letra minúscula, una mayúscula, un número, un carácter especial, al menos 12 caracteres

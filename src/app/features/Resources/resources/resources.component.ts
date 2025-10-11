@@ -101,8 +101,8 @@ export class ResourcesComponent {
             serialNumber: result.serialNumber,
             totalAmount: result.totalAmount,
             availableQuantity: result.availableQuantity,
-            // escuelaId: result.escuelaId,
-            escuelaId: '123456', // Temporal hasta tener autenticación
+            // schoolId: result.schoolId,
+            schoolId: '123456', // Temporal hasta tener autenticación
             enabled: true,
             createdAt: new Date().toISOString(),
           };
@@ -209,7 +209,7 @@ export class ResourcesComponent {
             'Cancelado',
             'No se realizó la acción.'
           );
-        }
+        } 
       });
   }
 

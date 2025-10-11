@@ -23,7 +23,7 @@ export interface Resource {
   availableQuantity?: number;
 
   // Metadatos
-  escuelaId: string; // Obligatorio → vínculo a la escuela
+  schoolId: string; // Obligatorio → vínculo a la escuela
   createdAt: string; // Obligatorio → ISO date string
   enabled: boolean; // Obligatorio → si el recurso está activo o deshabilitado
 }
@@ -66,7 +66,7 @@ export interface NewResource {
   availableQuantity?: number;
 
   // Metadatos
-  escuelaId: string; // Obligatorio → vínculo a la escuela
+  schoolId: string; // Obligatorio → vínculo a la escuela
   createdAt: string; // Obligatorio → ISO date string
   enabled: boolean; // Obligatorio → si el recurso está activo o deshabilitado
 }

@@ -6,8 +6,6 @@ import {
   deleteDoc,
   doc,
   Firestore,
-  getDoc,
-  getDocs,
   onSnapshot,
   query,
   setDoc,
@@ -67,7 +65,6 @@ export class ResourceService {
   async disableResource(resourceId: string) {
     const resourceRef = doc(this.firestore, `resources/${resourceId}`);
 
-    // Asegúrate de que uid es una cadena válida antes de intentar actualizar
     await updateDoc(resourceRef, {
       enabled: false,
       updatedAt: new Date().toISOString(),
@@ -77,7 +74,6 @@ export class ResourceService {
   async enableResource(resourceId: string) {
     const resourceRef = doc(this.firestore, `resources/${resourceId}`);
 
-    // Asegúrate de que uid es una cadena válida antes de intentar actualizar
     await updateDoc(resourceRef, {
       enabled: true,
       updatedAt: new Date().toISOString(),
@@ -105,7 +101,7 @@ export class ResourceService {
         serialNumber: newResource.serialNumber,
         totalAmount: newResource.totalAmount,
         availableQuantity: newResource.availableQuantity,
-        escuelaId: newResource.escuelaId,
+        schoolId: newResource.schoolId,
         createdAt: new Date().toISOString(),
         enabled: newResource.enabled,
       });

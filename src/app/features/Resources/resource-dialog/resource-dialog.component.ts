@@ -1,25 +1,25 @@
 import { Component, Inject } from '@angular/core';
-import { SharedModule } from '../../../../shared/shared.module';
+import { SharedModule } from '../../../shared/shared.module';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   ResourceDialogData,
   ResourceDialogMode,
   ResourceType,
   StateResource,
-} from '../../model/resource.model';
+} from '../model/resource.model';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {
   regexAlfanumericoConEspacios,
   regexDireccion,
   regexNumeros,
   regexTextos,
-} from '../../../../shared/pattern/patterns';
+} from '../../../shared/pattern/patterns';
 import {
   DateAdapter,
   MAT_DATE_FORMATS,
   MAT_NATIVE_DATE_FORMATS,
 } from '@angular/material/core';
-import { CustomDateAdapter } from '../../../../shared/fecha/CustomDateAdapter';
+import { CustomDateAdapter } from '../../../shared/fecha/CustomDateAdapter';
 
 @Component({
   selector: 'app-resource-dialog',

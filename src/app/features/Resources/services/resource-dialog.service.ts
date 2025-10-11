@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { Resource } from '../model/resource.model';
-import { ResourceDialogComponent } from './resource-dialog/resource-dialog.component';
+import { ResourceDialogComponent } from '../resource-dialog/resource-dialog.component';
 
 type DialogMode = 'create' | 'edit';
 

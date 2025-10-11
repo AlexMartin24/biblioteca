@@ -2,6 +2,11 @@
     color: red; /* Cambia el color del botón de cancelar si es necesario */
 }
 
+.question-button {
+    background-color: #1976D2; /* Color para el botón de pregunta */
+    color: white;
+}
+
 .confirm-button {
     background-color: #ec2828; /* Color para el botón de confirmación */
     color: white;
@@ -18,4 +23,9 @@
 
 .info-button:hover {
     background-color: #1976D2; /* Color al pasar el mouse */
+}
+
+mat-dialog-actions{
+    justify-content: center; /* Centra los botones */
+    gap: 10px; /* Espacio entre los botones */
 }

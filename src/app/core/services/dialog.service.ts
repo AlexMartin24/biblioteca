@@ -14,7 +14,7 @@ export class DialogService {
   confirmDialog(options: {
     title: string;
     message: string;
-    type?: 'confirm' | 'info' | 'error' | 'enable';
+    type?: 'confirm' | 'info' | 'error' | 'question' | 'enable';
   }) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
@@ -27,17 +27,18 @@ export class DialogService {
     return dialogRef.afterClosed(); // observable<boolean>
   }
 
-  /**
-   * Muestra un mensaje informativo (sin opciones).
-   */
+  /* Muestra un mensaje informativo (sin opciones). */
   infoDialog(title: string, message: string) {
     return this.confirmDialog({ title, message, type: 'info' });
   }
 
-  /**
-   * Muestra un mensaje de error.
-   */
+  /* Muestra un mensaje de error (dos opciones). */
   errorDialog(title: string, message: string) {
     return this.confirmDialog({ title, message, type: 'error' });
+  }
+
+  /* Muestra un mensaje de pregunta (dos opciones).*/
+  questionDialog(title: string, message: string) {
+    return this.confirmDialog({ title, message, type: 'question' });
   }
 }

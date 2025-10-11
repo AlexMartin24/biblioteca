@@ -10,11 +10,11 @@ import { FormComponent } from './auth/form/form.component';
 import { IndexComponent } from './core/components/index/index.component';
 import { ListUserComponent } from './features/Users/list-user/list-user.component';
 import { ResourcesComponent } from './features/Resources/resources/resources.component';
+import { ListSchoolsComponent } from './features/Schools/list-schools/list-schools.component';
 
 export const routes: Routes = [
   { path: 'profesores', component: ListarProfesorComponent },
   { path: 'profesor/:idProfesor', component: PerfilProfesorComponent },
-
 
   { path: 'cursos', component: ListarCursosComponent },
   { path: 'curso/:idCurso', component: CursoComponent },
@@ -24,15 +24,15 @@ export const routes: Routes = [
 
   { path: 'form', component: FormComponent },
 
-
   // { path: '', component: IndexComponent },
-    // { path: '', component: ListUserComponent },
+  // { path: '', component: ListUserComponent },
 
-    { path: '', component: ResourcesComponent },
+  // { path: '', component: ResourcesComponent },
+
+  { path: '', component: ListSchoolsComponent },
 
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.routes').then((m) => m.AUTH_ROUTES),
   },
-  
 ];
