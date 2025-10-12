@@ -3,8 +3,12 @@
 }
 
 .question-button {
-    background-color: #1976D2; /* Color para el botón de pregunta */
-    color: white;
+  background-color: #3f51b5; /* azul */
+  color: white;
+}
+
+.question-button:hover {
+  background-color: #303f9f;
 }
 
 .confirm-button {
@@ -17,12 +21,12 @@
 }
 
 .info-button {
-    background-color: #2196F3; /* Color para el botón de información */
+    background-color: #3f51b5; /* Color para el botón de información */
     color: white;
 }
 
 .info-button:hover {
-    background-color: #1976D2; /* Color al pasar el mouse */
+    background-color: #3f51b5; /* Color al pasar el mouse */
 }
 
 mat-dialog-actions{
